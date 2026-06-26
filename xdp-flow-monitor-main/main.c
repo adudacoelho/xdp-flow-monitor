@@ -84,11 +84,13 @@ static int query_ml(const FlowFeatures *f) {
     close(sock);
 
     // Retorna 1 se o daemon respondeu "attack": true
-    return strstr(resp, "\"attack\":true") != NULL;
+    return strstr(resp, "\"attack\": true") != NULL;
+
 }
 
 static int handle_event(void *ctx, void *data, size_t data_sz) {
     const struct flow_metrics *m = data;
+
 
     // Tenta fechar a janela de agregação
     FlowFeatures features;
@@ -151,7 +153,7 @@ int main(int argc, char **argv) {
     }
 
     // Guarda o fd do blacklist_map para uso no update_blacklist()
-    blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
+    // blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
 
     skel->links.network_flow_monitor = bpf_program__attach_xdp(
         skel->progs.network_flow_monitor, ifindex);
