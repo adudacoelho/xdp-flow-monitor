@@ -19,6 +19,12 @@ struct flow_key {
     __u8  pad[3];    // 3 bytes de padding para fechar em 16 bytes exatos
 };
 
+// Chave LPM para a blacklist
+struct lpm_key {
+    __u32 prefixlen;
+    __u32 ip;
+};
+
 // Mapa Hash de fluxos
 struct {
     __uint(type, BPF_MAP_TYPE_HASH);
@@ -32,6 +38,15 @@ struct {
     __uint(type, BPF_MAP_TYPE_RINGBUF);
     __uint(max_entries, 256 * 1024);
 } rb SEC(".maps");
+
+// Blacklist de IPs maliciosos (preenchida pelo user space via XGBoost)
+struct {
+    __uint(type, BPF_MAP_TYPE_LPM_TRIE);
+    __uint(max_entries, 1024);
+    __uint(map_flags, BPF_F_NO_PREALLOC);
+    __type(key, struct lpm_key);
+    __type(value, __u8);
+} blacklist_map SEC(".maps");
 
 SEC("xdp")
 int network_flow_monitor(struct xdp_md *ctx) {
@@ -78,21 +93,27 @@ int network_flow_monitor(struct xdp_md *ctx) {
         return XDP_PASS;
     }
 
+    // Verifica blacklist ANTES de processar o fluxo
+    struct lpm_key lpm = { .prefixlen = 32, .ip = key.src_ip };
+    if (bpf_map_lookup_elem(&blacklist_map, &lpm)) {
+        return XDP_DROP;  // IP bloqueado — descarta imediatamente
+    }
+
     struct flow_metrics *metrics = bpf_map_lookup_elem(&flow_map, &key);
     __u64 now = bpf_ktime_get_ns();
 
     if (!metrics) {
         struct flow_metrics new_metrics = {0};
-        new_metrics.src_ip   = key.src_ip;
-        new_metrics.dst_ip   = key.dst_ip;
-        new_metrics.src_port = key.src_port;
-        new_metrics.dst_port = key.dst_port;
-        new_metrics.protocol = key.protocol;
+        new_metrics.src_ip    = key.src_ip;
+        new_metrics.dst_ip    = key.dst_ip;
+        new_metrics.src_port  = key.src_port;
+        new_metrics.dst_port  = key.dst_port;
+        new_metrics.protocol  = key.protocol;
 
-        new_metrics.start_ts      = now;
-        new_metrics.current_ts    = now;
-        new_metrics.flow_packets  = 1;
-        new_metrics.flow_bytes    = pkt_len;
+        new_metrics.start_ts       = now;
+        new_metrics.current_ts     = now;
+        new_metrics.flow_packets   = 1;
+        new_metrics.flow_bytes     = pkt_len;
         new_metrics.min_packet_len = pkt_len;
 
         bpf_map_update_elem(&flow_map, &key, &new_metrics, BPF_ANY);
