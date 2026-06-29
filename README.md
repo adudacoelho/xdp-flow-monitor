@@ -101,8 +101,6 @@ python3 train_model.py
 cp ddos_model.ubj xdp-flow-monitor-main/
 ```
 
-> Para usar o dataset real CIC-DDoS2019, baixe em https://www.unb.ca/cic/datasets/ddos-2019.html e coloque os CSVs em `dataset/`.
-
 ## Passo 2 — Compilar o projeto
 
 Dentro de `xdp-flow-monitor-main/`:
