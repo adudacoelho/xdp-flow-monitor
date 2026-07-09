@@ -77,8 +77,8 @@ int network_flow_monitor(struct xdp_md *ctx) {
         key.dst_port = tcp->dest;
 
         // Só monitora pacotes chegando na vítima (dst_port 80)
-        // Ignora RST/ACK de retorno onde a vítima é origem (src_port 80)
-        if (tcp->dest != bpf_htons(80))
+        // E RST/ACK de retorno (src_port 80)
+        if (tcp->dest != bpf_htons(80) && tcp->source != bpf_htons(80))
             return XDP_PASS;
 
     } else if (ip->protocol == IPPROTO_UDP) {
