@@ -7,6 +7,7 @@ Ouve num socket Unix, recebe features em JSON, responde "attack": true/false.
 import os
 import json
 import socket
+import struct
 import numpy as np
 import xgboost as xgb
 
@@ -69,7 +70,9 @@ def run(model):
                     conn.sendall(json.dumps(response).encode())
 
                     status = "ATAQUE" if is_attack else "normal"
-                    print(f"[{status}] src_ip={data.get('src_ip')} "
+                    src_ip_int = data.get('src_ip', 0)
+                    src_ip_str = socket.inet_ntoa(struct.pack('<L', src_ip_int))
+                    print(f"[{status}] src_ip={src_ip_str} "
                           f"pkts/s={data['features'].get('flow_pkts_per_sec', 0):.1f}")
                 except Exception as e:
                     print(f"[ERRO] {e}")
