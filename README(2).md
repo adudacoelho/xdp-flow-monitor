@@ -34,7 +34,7 @@ sudo apt install -y \
 ## Dependências Python
 
 ```bash
-pip3 install scikit-learn numpy scipy xgboost
+pip3 install scikit-learn numpy scipy xgboost pandas
 ```
 
 ## Estrutura de arquivos relevantes
@@ -48,7 +48,7 @@ xdp-flow-monitor-main/
 ├── ml_daemon.py         # Daemon de classificação XGBoost
 ├── train_model.py       # Treina o modelo com dataset CSV
 dataset/
-└── synthetic_ddos.csv   # Dataset gerado (ou substitua pelo CIC-DDoS2019)
+└── Syn.csv              # Dataset CIC-DDoS2019 (arquivo 01-12/Syn.csv)
 ```
 
 ## Passo 1 — Gerar o dataset e treinar o modelo
@@ -108,8 +108,8 @@ Dentro de `xdp-flow-monitor-main/`:
 ```bash
 cd xdp-flow-monitor-main
 
-# Compilar o programa BPF
-clang -O2 -g -target bpf \
+# Compilar o programa BPF (requer sudo)
+sudo clang -O2 -g -target bpf \
   -I/usr/include/$(uname -m)-linux-gnu \
   -c flow_monitor.bpf.c \
   -o flow_monitor.bpf.o
@@ -126,19 +126,27 @@ chmod +x flow_monitor
 
 ## Passo 3 — Descobrir a interface de rede correta
 
-A interface veth dos containers muda a cada reinício da VM. Sempre redescubra antes de rodar:
+A interface veth dos containers muda a cada reinício da VM. Os IPs dos containers também mudam a cada reinício — sempre redescubra ambos antes de rodar.
 
 ```bash
-# 1. Descobre o índice da interface do container atacante
-docker exec clab-xdp-ddos-atacante1 cat /sys/class/net/eth0/iflink
+# Descobre a veth do atacante1 (interface onde o monitor deve ser anexado)
+IFLINK=$(docker exec clab-xdp-ddos-atacante1 cat /sys/class/net/eth0/iflink)
+IFACE=$(ip link show | grep "^${IFLINK}:" | awk -F': ' '{print $2}' | cut -d'@' -f1)
+echo "Interface atacante1: $IFACE"
 
-# 2. Lista todas as interfaces e encontra a que tem aquele índice
-ip link show
+# Descobre o IP atual da vítima (alvo do ataque)
+docker exec clab-xdp-ddos-vitima ip addr show eth0 | grep "inet "
+
+# Descobre os IPs atuais de todos os atacantes
+for i in 1 2 3 4; do
+  IP=$(docker exec clab-xdp-ddos-atacante$i ip addr show eth0 | grep "inet " | awk '{print $2}' | cut -d'/' -f1)
+  echo "atacante$i -> $IP"
+done
 ```
 
-Exemplo: se o comando retornou `7`, procure na saída do `ip link show` a linha que começa com `7: vethXXXXXXX` — esse é o nome que você vai usar no monitor.
+> **Importante:** O monitor deve ser anexado na **veth do atacante** (não da vítima). O XDP captura pacotes no modo ingress — na veth do atacante isso corresponde ao tráfego SYN saindo em direção à vítima. Na veth da vítima, o que seria capturado é o tráfego RST/ACK de retorno, o que causaria o `src` reportado ser sempre o IP da vítima em vez do atacante.
 
-## Execução — 4 terminais necessários
+## Execução — 3 terminais necessários
 
 > **Importante:** Os containers Docker precisam estar rodando antes de iniciar os testes. Verifique com `docker ps`. Se a VM foi desligada sem salvar o estado, os containers podem ter parado — nesse caso será necessário recriá-los.
 >
@@ -167,6 +175,8 @@ Saída esperada:
 [OK] Escutando em /tmp/ml_engine.sock
 ```
 
+> Mantenha este terminal aberto e rodando durante todo o teste. Se for interrompido com Ctrl+C, o monitor não conseguirá classificar os fluxos.
+
 ### Terminal 2 — Monitor XDP
 
 ```bash
@@ -189,16 +199,19 @@ sudo ./flow_monitor <interface>
 ### Terminal 3 — Atacante (simulação DDoS)
 
 ```bash
-# Porta de origem fixa para concentrar o flood num único fluxo
-docker exec clab-xdp-ddos-atacante1 hping3 --flood --syn -p 80 --keep -s 12345 172.20.20.3
+# Descubra o IP atual da vítima antes de atacar
+docker exec clab-xdp-ddos-vitima ip addr show eth0 | grep "inet "
+
+# Substitua <IP_VITIMA> pelo IP encontrado acima
+docker exec clab-xdp-ddos-atacante1 hping3 --flood --syn -p 80 --keep -s 12345 <IP_VITIMA>
 ```
 
-Para atacar com múltiplos containers em background:
+Para atacar com múltiplos containers em background (descubra o IP da vítima primeiro):
 
 ```bash
-docker exec -d clab-xdp-ddos-atacante2 hping3 --flood --syn -p 80 --keep -s 12345 172.20.20.3
-docker exec -d clab-xdp-ddos-atacante3 hping3 --flood --syn -p 80 --keep -s 12345 172.20.20.3
-docker exec -d clab-xdp-ddos-atacante4 hping3 --flood --syn -p 80 --keep -s 12345 172.20.20.3
+docker exec -d clab-xdp-ddos-atacante2 hping3 --flood --syn -p 80 --keep -s 12345 <IP_VITIMA>
+docker exec -d clab-xdp-ddos-atacante3 hping3 --flood --syn -p 80 --keep -s 12345 <IP_VITIMA>
+docker exec -d clab-xdp-ddos-atacante4 hping3 --flood --syn -p 80 --keep -s 12345 <IP_VITIMA>
 ```
 
 ### Terminal 4 — Vítima (opcional, para verificar conectividade)
@@ -213,7 +226,7 @@ No terminal do monitor, após a janela de 5 segundos fechar:
 
 ```
 ====================================================
-Janela fechada — src: 172.20.20.4
+Janela fechada — src: 172.20.20.6
 Flow Packets/s   : 289571782.00
 Flow Bytes/s     : 15636876228.19
 Packet Len Mean  : 54.00 bytes
@@ -223,16 +236,20 @@ TCP Flags        : SYN:1451012464 ACK:0 RST:0 URG:0 CWR:0
 ====================================================
 ```
 
+> O `src` exibido é o IP do **atacante**, não da vítima. O IP exato varia a cada reinício dos containers.
+
 No terminal do ML daemon:
 
 ```
-[ATAQUE] src_ip=68424876 pkts/s=289571782.0
+[ATAQUE] src_ip=101979308 pkts/s=289571782.0
 ```
 
 ## Observações
 
-- O modelo sintético tem 100% de acurácia no teste porque os dados de treino e teste vêm da mesma distribuição artificial. Para uso em produção, treine com o dataset CIC-DDoS2019.
+- O modelo foi treinado com o dataset real **CIC-DDoS2019** (`Syn.csv`), atingindo 100% de acurácia. O dataset contém tráfego real de SYN flood capturado em laboratório pelo grupo CIC da Universidade de New Brunswick.
 - O `blacklist_map` bloqueia IPs via XDP com `XDP_DROP`, antes mesmo do pacote chegar ao kernel, tornando o bloqueio extremamente eficiente.
 - A janela de agregação é configurável em `window.h` via `WINDOW_SEC` (padrão: 5 segundos).
-- O `main.c` espera que o daemon responda com `"attack": true` (com espaço após os dois-pontos). Verifique esse detalhe se o monitor sempre mostrar `[Normal]`.
-- A interface veth dos containers muda a cada reinício — sempre redescubra com `docker exec clab-xdp-ddos-atacante1 cat /sys/class/net/eth0/iflink` antes de rodar o monitor.
+- O monitor deve ser anexado na veth do **atacante**, não da vítima. Na veth da vítima, o XDP captura apenas o tráfego de retorno (RST/ACK), fazendo o `src` reportado ser sempre o IP da vítima.
+- O `flow_monitor.bpf.c` filtra por `dst_port=80`, ignorando pacotes de retorno (RST/ACK) cujo `src_port=80`. Isso garante que apenas o tráfego de ataque (SYN com destino à porta 80) seja monitorado.
+- A interface veth e os IPs dos containers mudam a cada reinício — sempre redescubra ambos antes de rodar o monitor e o ataque.
+- A compilação do programa BPF requer `sudo` (`sudo clang ...`).
