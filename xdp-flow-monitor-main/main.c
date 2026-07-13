@@ -153,7 +153,11 @@ int main(int argc, char **argv) {
     }
 
     // Guarda o fd do blacklist_map para uso no update_blacklist()
-    // blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
+    blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
+    if (blacklist_map_fd < 0) {
+        fprintf(stderr, "Falha ao obter fd do blacklist_map\n");
+        goto cleanup;
+    }
 
     skel->links.network_flow_monitor = bpf_program__attach_xdp(
         skel->progs.network_flow_monitor, ifindex);
