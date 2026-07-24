@@ -154,16 +154,23 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Falha ao carregar o skeleton BPF\n");
         return 1;
     }
-
-    // Guarda o fd do blacklist_map para uso no update_blacklist()
+// Guarda o fd do blacklist_map para uso no update_blacklist()
     blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
     if (blacklist_map_fd < 0) {
         fprintf(stderr, "Falha ao obter fd do blacklist_map\n");
         goto cleanup;
     }
+
     skel->links.network_flow_monitor = bpf_program__attach_xdp(
         skel->progs.network_flow_monitor, ifindex);
+    if (!skel->links.network_flow_monitor) {
+        fprintf(stderr, "Falha ao anexar programa BPF na interface\n");
+        goto cleanup;
+    }
+
     rb = ring_buffer__new(bpf_map__fd(skel->maps.rb), handle_event, NULL, NULL);
+
+
     if (!rb) {
         fprintf(stderr, "Falha ao criar o ring buffer\n");
         goto cleanup;

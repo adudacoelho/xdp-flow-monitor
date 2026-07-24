@@ -1,0 +1,224 @@
+Monitoramento iniciado na interface veth5174541 (ifindex 9).
+Aguardando ml_daemon.py em /tmp/ml_engine.sock...
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 15578356472.31
+Flow Bytes/s     : 841231249504.86
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:582920046 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 50697092172.72
+Flow Bytes/s     : 2737642977326.68
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:85360945 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 85726692543.10
+Flow Bytes/s     : 4629241397327.60
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3432059092 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 124565801235.62
+Flow Bytes/s     : 6726553266723.55
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:61378465 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 157113121610.20
+Flow Bytes/s     : 8484108566950.57
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3882004652 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 191902816712.42
+Flow Bytes/s     : 10362752102470.53
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2078370018 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 223923735747.28
+Flow Bytes/s     : 12091881730352.91
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2940621679 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 249116434483.59
+Flow Bytes/s     : 13452287462114.00
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:42349869 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 271971227797.46
+Flow Bytes/s     : 14686446301063.09
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2652214220 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 328749398061.75
+Flow Bytes/s     : 17752467495334.40
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3319205882 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 342207967670.95
+Flow Bytes/s     : 18479230254231.20
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:1742319688 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 376050395489.41
+Flow Bytes/s     : 20306721356428.36
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3533146997 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 417949704354.33
+Flow Bytes/s     : 22569284035133.79
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2043695149 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 414585162940.65
+Flow Bytes/s     : 22387598798794.95
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2777375593 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 418443134230.10
+Flow Bytes/s     : 22595929248425.66
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2460230167 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 466833234605.85
+Flow Bytes/s     : 25208994668716.16
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:1186227624 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 528732517361.76
+Flow Bytes/s     : 28551555937534.86
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:861174869 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 497452328871.60
+Flow Bytes/s     : 26862425759066.17
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:790808053 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 572760868610.79
+Flow Bytes/s     : 30929086904982.59
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:70522791 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 582697124036.88
+Flow Bytes/s     : 31465644697991.57
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:1500955211 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 604815989811.14
+Flow Bytes/s     : 32660063449801.70
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:478578849 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 639160961550.99
+Flow Bytes/s     : 34514691923753.31
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:349580552 ACK:0 RST:0 URG:0 CWR:0
+[ATAQUE DETECTADO] Bloqueando IP...
+====================================================
+
+======

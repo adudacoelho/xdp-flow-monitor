@@ -76,6 +76,11 @@ int network_flow_monitor(struct xdp_md *ctx) {
         key.src_port = tcp->source;
         key.dst_port = tcp->dest;
 
+        // Só monitora pacotes chegando na vítima (dst_port 80)
+        // E RST/ACK de retorno (src_port 80)
+        if (tcp->dest != bpf_htons(80) && tcp->source != bpf_htons(80))
+            return XDP_PASS;
+
     } else if (ip->protocol == IPPROTO_UDP) {
         struct udphdr *udp = (void *)ip + (ip->ihl * 4);
         if ((void *)(udp + 1) > data_end) return XDP_PASS;
@@ -85,7 +90,6 @@ int network_flow_monitor(struct xdp_md *ctx) {
     } else if (ip->protocol == IPPROTO_ICMP) {
         struct icmphdr *icmp = (void *)ip + (ip->ihl * 4);
         if ((void *)(icmp + 1) > data_end) return XDP_PASS;
-        // ICMP não tem portas; reutilizamos os campos para type e code
         key.src_port = icmp->type;
         key.dst_port = icmp->code;
 
