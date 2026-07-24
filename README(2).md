@@ -50,6 +50,14 @@ xdp-flow-monitor-main/
 dataset/
 └── Syn.csv              # Dataset CIC-DDoS2019 (arquivo 01-12/Syn.csv)
 ```
+## Diagrama da Topologia
+
+```mermaid
+flowchart TD
+    A[Atacantes containers<br/>hping3 SYN flood] --> B[flow_monitor XDP<br/>bloqueia via blacklist_map]
+    B -->|socket Unix| C[ml_daemon.py<br/>classificador XGBoost]
+    B -.malicioso: DROP / normal: PASS.-> D[Vítima<br/>172.20.20.x : porta 80]
+```
 
 ## Passo 1 — Gerar o dataset e treinar o modelo
 
