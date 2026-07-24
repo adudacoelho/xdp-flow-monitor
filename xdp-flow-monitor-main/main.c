@@ -4,6 +4,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <errno.h>
 #include <net/if.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -30,19 +31,21 @@ struct lpm_key {
 };
 
 // Adiciona um IP na blacklist do kernel
+// Adiciona um IP na blacklist do kernel
 static void update_blacklist(uint32_t ip) {
+    printf("[DEBUG] update_blacklist chamado, blacklist_map_fd=%d\n", blacklist_map_fd);
     if (blacklist_map_fd < 0) return;
-
     struct lpm_key key = { .prefixlen = 32, .ip = ip };
     uint8_t val = 1;
-
+    char ip_str[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &ip, ip_str, sizeof(ip_str));
     if (bpf_map_update_elem(blacklist_map_fd, &key, &val, BPF_ANY) == 0) {
-        char ip_str[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &ip, ip_str, sizeof(ip_str));
         printf("[BLOQUEADO] IP adicionado à blacklist: %s\n", ip_str);
+    } else {
+        printf("[ERRO] Falha ao adicionar %s à blacklist (fd=%d): %s\n",
+               ip_str, blacklist_map_fd, strerror(errno));
     }
 }
-
 // Envia features ao ml_daemon.py via socket Unix e recebe resultado
 static int query_ml(const FlowFeatures *f) {
     int sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -153,15 +156,13 @@ int main(int argc, char **argv) {
     }
 
     // Guarda o fd do blacklist_map para uso no update_blacklist()
-    // blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
-
-    skel->links.network_flow_monitor = bpf_program__attach_xdp(
-        skel->progs.network_flow_monitor, ifindex);
-    if (!skel->links.network_flow_monitor) {
-        fprintf(stderr, "Falha ao anexar programa BPF na interface\n");
+    blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
+    if (blacklist_map_fd < 0) {
+        fprintf(stderr, "Falha ao obter fd do blacklist_map\n");
         goto cleanup;
     }
-
+    skel->links.network_flow_monitor = bpf_program__attach_xdp(
+        skel->progs.network_flow_monitor, ifindex);
     rb = ring_buffer__new(bpf_map__fd(skel->maps.rb), handle_event, NULL, NULL);
     if (!rb) {
         fprintf(stderr, "Falha ao criar o ring buffer\n");
