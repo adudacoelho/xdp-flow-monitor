@@ -1,5 +1,6 @@
 .lab/
-results/
+**/results/*
+!**/results/.gitkeep
 build/
 .venv/
 __pycache__/

@@ -6,11 +6,11 @@ topology:
     network-mode: none
     binds:
       - /etc/xdp-chen-lab:/etc/xdp-chen-vm:ro
-      - ../dataset:/workspace/dataset:ro
+      - ${CHEN_ROOT}/dataset:/workspace/dataset:ro
   nodes:
     generator:
       binds:
-        - ../results/generator:/workspace/results
+        - ${CHEN_RESULTS}/generator:/workspace/results
       exec:
         - sh -c 'echo generator > /etc/xdp-chen-lab'
         - ip link set dev lab0 address 52:54:00:ce:02:10
@@ -19,7 +19,7 @@ topology:
         - sysctl -w net.ipv4.ip_forward=0
     target:
       binds:
-        - ../results/target:/workspace/results
+        - ${CHEN_RESULTS}/target:/workspace/results
       exec:
         - sh -c 'echo target > /etc/xdp-chen-lab'
         - ip link set dev lab0 address 52:54:00:ce:02:20

@@ -39,4 +39,4 @@ precisa ser calculado por janela, não pela vida inteira do fluxo.
 Baseline, captura e filtragem estática podem ser preparados separadamente.
 Resultados do detector atual devem ser apresentados como diagnóstico preliminar.
 O artigo usa seis máquinas e CIC-DDoS2019 estendido; Containerlab em uma VM e o dataset
-original constituem uma reprodução adaptada. Veja o [roteiro](../reproduzindoTestes/README.md).
+original constituem uma reprodução adaptada. Veja o [roteiro](../../testes/testes-chen/4A-ambiente-experimental.md).
