@@ -1,9 +1,9 @@
 # Preparar o servidor (host)
 
-Este roteiro prepara o servidor Ubuntu Server 24.04 para hospedar as VMs do
+Este roteiro prepara o servidor srv01 com Ubuntu Server 24.04 para hospedar as VMs do
 laboratório. A criação de cada VM está no documento específico da sua versão.
 
-## 1. Acessar o servidor e localizar o projeto
+## 1. Acessar o servidor e entrar na pasta testes-chen
 
 No seu computador, entre no servidor substituindo os campos abaixo:
 
@@ -11,17 +11,20 @@ No seu computador, entre no servidor substituindo os campos abaixo:
 ssh SEU_USUARIO@IP_DO_SERVIDOR
 ```
 
-**Os próximos comandos são executados no servidor**, usando seu usuário comum
-com acesso a `sudo`. A pasta do projeto deve conter o Makefile atualizado e os
-arquivos do repositório. O projeto fica em `~/xdp-flow-monitor`; o Makefile do servidor fica em
-`testes/testes-chen/`:
+**Já conectado ao servidor, entre na pasta `testes/testes-chen`:**
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
-ls Makefile
+``` 
+Permaneça nessa pasta para executar os próximos passos. Use seu usuário comum
+com acesso a `sudo`.
+
+**Antes de executar qualquer comando `make` deste roteiro:**
+
+```bash
+ls Makefile 
 ```
 
-Se a pasta ainda não estiver no servidor, copie o projeto antes de continuar.
 Não use `sudo make`: os alvos já usam `sudo` nos comandos que precisam dele.
 
 Caso o comando `make` não esteja instalado:
@@ -81,5 +84,4 @@ make host-check
 
 Siga a preparação da versão desejada:
 
-- [VM Ubuntu 22.04](vm-ubuntu2204/PREPARANDOVM.md)
-- [VM Ubuntu 26.04](vm-ubuntu2604/PREPARANDOVM.md)
+- [Preparar a VM Ubuntu 22.04 ou 26.04](PREPARANDOVM.md)

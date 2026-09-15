@@ -84,7 +84,7 @@ vm-up: server-check
 		mv "$$IMAGE_FILE.part" "$$IMAGE_FILE"
 		cd ..
 	fi
-	printf '%s\n' '#cloud-config' "hostname: $$VM_NAME" 'package_update: true' 'packages: [make, rsync]' 'users:' '  - name: ubuntu' '    groups: [sudo]' '    sudo: ALL=(ALL) NOPASSWD:ALL' '    shell: /bin/bash' '    ssh_authorized_keys:' "      - $$(cat .lab/id_ed25519.pub)" 'ssh_pwauth: false' 'write_files:' '  - path: /etc/xdp-chen-lab' "    permissions: '0644'" "    content: '$$VM_TAG'" > .lab/user.yaml
+	printf '%s\n' '#cloud-config' "hostname: $$VM_NAME" 'package_update: true' 'packages: [make, rsync]' 'users:' '  - name: root' '    groups: [sudo]' '    sudo: ALL=(ALL) NOPASSWD:ALL' '    shell: /bin/bash' '    ssh_authorized_keys:' "      - $$(cat .lab/id_ed25519.pub)" 'disable_root: false' 'ssh_pwauth: false' 'write_files:' '  - path: /etc/xdp-chen-lab' "    permissions: '0644'" "    content: '$$VM_TAG'" > .lab/user.yaml
 	printf 'instance-id: %s\nlocal-hostname: %s\n' "$$VM_NAME" "$$VM_NAME" > .lab/meta.yaml
 	printf '%s\n' 'version: 2' 'ethernets:' '  mgmt0:' "    match: {macaddress: '$$VM_MAC'}" '    set-name: mgmt0' '    dhcp4: true' > .lab/network.yaml
 	cloud-localds --network-config=.lab/network.yaml .lab/seed.iso .lab/user.yaml .lab/meta.yaml
@@ -99,19 +99,19 @@ vm-up: server-check
 
 # NO SERVIDOR: abre um terminal na VM escolhida. Não entra em containers.
 ssh-lab: server-check
-	ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts "ubuntu@$$VM_IP"
+	ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts "root@$$VM_IP"
 
 # NO SERVIDOR: copia projeto SERVIDOR -> VM. Não consulta GitHub nem copia dados.
 # Após mudar código, reconstrua a imagem dos containers dentro da VM.
 vm-sync: server-check
-	ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts "ubuntu@$$VM_IP" 'sudo cloud-init status --wait'
-	rsync -az --exclude=.git --exclude=.lab --exclude=.venv --exclude=build --exclude=results --exclude=dataset -e 'ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts' "$$REPO_ROOT/" "ubuntu@$$VM_IP:xdp-flow-monitor/"
+	ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts "root@$$VM_IP" 'sudo cloud-init status --wait'
+	rsync -az --exclude=.git --exclude=.lab --exclude=.venv --exclude=build --exclude=results --exclude=dataset -e 'ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts' "$$REPO_ROOT/" "root@$$VM_IP:xdp-flow-monitor/"
 
 # NO SERVIDOR: recupera VM -> results/ DESTA versão. Execute clab-down antes,
 # dentro da VM, para encerrar o laboratório e devolver a propriedade dos arquivos.
 vm-results: server-check
 	mkdir -p results
-	rsync -az --exclude=.gitkeep -e 'ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts' "ubuntu@$$VM_IP:xdp-flow-monitor/$$VM_REL/results/" results/
+	rsync -az --exclude=.gitkeep -e 'ssh -i .lab/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=.lab/known_hosts' "root@$$VM_IP:xdp-flow-monitor/$$VM_REL/results/" results/
 
 # NO PC: copia SERVIDOR -> results/ DESTA versão, usando sua chave SSH normal.
 # Exemplo: make get-results SERVER=elisa@servidor SERVER_REPO=/home/elisa/xdp-flow-monitor

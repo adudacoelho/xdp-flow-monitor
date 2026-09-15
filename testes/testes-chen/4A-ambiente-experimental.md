@@ -2,8 +2,7 @@
 
 Preparação do servidor: [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
 
-- [VM Ubuntu 22.04](vm-ubuntu2204/PREPARANDOVM.md)
-- [VM Ubuntu 26.04](vm-ubuntu2604/PREPARANDOVM.md)
+- [Preparar a VM Ubuntu 22.04 ou 26.04](PREPARANDOVM.md)
 
 O laboratório usa Containerlab dentro de uma VM, com os containers `generator`
 e `target` ligados por `lab0`. Os containers compartilham o kernel e os recursos
