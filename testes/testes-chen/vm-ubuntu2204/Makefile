@@ -58,23 +58,30 @@ server-check:
 # Depois da primeira criação, apenas inicia a VM existente. Não apaga discos.
 # .lab/ desta pasta contém a imagem baixada, chave SSH e configurações geradas.
 vm-up: server-check
+	@log() { printf '[%s] %s\n' "$$(date +%H:%M:%S)" "$$1"; }
+	log "Iniciando preparação de $$VM_NAME no servidor."
 	test -e /dev/kvm
 	test "$$(uname -m)" = x86_64
 	mkdir -p .lab
 	exec 9>.lab/create.lock; flock -n 9
 	if virsh -c qemu:///system dominfo "$$VM_NAME" >/dev/null 2>&1; then
+		log "A VM já existe; verificando rede e estado."
 		if ! virsh -c qemu:///system net-list --name | grep -Fxq "$$VM_NETWORK"; then virsh -c qemu:///system net-start "$$VM_NETWORK"; fi
 		if ! virsh -c qemu:///system list --name | grep -Fxq "$$VM_NAME"; then virsh -c qemu:///system start "$$VM_NAME"; fi
+		log "VM iniciada. O Ubuntu pode continuar configurando serviços antes de aceitar SSH."
 		exit 0
 	fi
+	log "Configurando a rede virtual $$VM_NETWORK."
 	if ! virsh -c qemu:///system net-info "$$VM_NETWORK" >/dev/null 2>&1; then
 		if ip -4 route | grep -Fq "$$VM_SUBNET."; then echo "Sub-rede $$VM_SUBNET.0/24 ocupada." >&2; exit 1; fi
 		printf '<network><name>%s</name><bridge name="%s"/><forward mode="nat"/><ip address="%s.1" netmask="255.255.255.0"><dhcp><range start="%s.100" end="%s.200"/><host mac="%s" ip="%s"/></dhcp></ip></network>\n' "$$VM_NETWORK" "$$VM_BRIDGE" "$$VM_SUBNET" "$$VM_SUBNET" "$$VM_SUBNET" "$$VM_MAC" "$$VM_IP" > .lab/network.xml
 		virsh -c qemu:///system net-define .lab/network.xml
 	fi
 	if ! virsh -c qemu:///system net-list --name | grep -Fxq "$$VM_NETWORK"; then virsh -c qemu:///system net-start "$$VM_NETWORK"; fi
+	log "Preparando chave SSH e imagem do Ubuntu $$VM_VERSION."
 	if [ ! -f .lab/id_ed25519 ]; then ssh-keygen -q -t ed25519 -N '' -f .lab/id_ed25519; fi
 	if [ ! -f ".lab/$$IMAGE_FILE" ]; then
+		log "Baixando imagem oficial; esta etapa pode demorar."
 		curl -fL --retry 3 "$$IMAGE_URL/SHA256SUMS" -o .lab/SHA256SUMS
 		curl -fL --retry 3 "$$IMAGE_URL/$$IMAGE_FILE" -o ".lab/$$IMAGE_FILE.part"
 		cd .lab
@@ -84,18 +91,22 @@ vm-up: server-check
 		mv "$$IMAGE_FILE.part" "$$IMAGE_FILE"
 		cd ..
 	fi
+	log "Gerando configuração inicial da VM."
 	printf '%s\n' '#cloud-config' "hostname: $$VM_NAME" 'package_update: true' 'packages: [make, rsync]' 'users:' '  - name: root' '    groups: [sudo]' '    sudo: ALL=(ALL) NOPASSWD:ALL' '    shell: /bin/bash' '    ssh_authorized_keys:' "      - $$(cat .lab/id_ed25519.pub)" 'disable_root: false' 'ssh_pwauth: false' 'write_files:' '  - path: /etc/xdp-chen-lab' "    permissions: '0644'" "    content: '$$VM_TAG'" > .lab/user.yaml
 	printf 'instance-id: %s\nlocal-hostname: %s\n' "$$VM_NAME" "$$VM_NAME" > .lab/meta.yaml
 	printf '%s\n' 'version: 2' 'ethernets:' '  mgmt0:' "    match: {macaddress: '$$VM_MAC'}" '    set-name: mgmt0' '    dhcp4: true' > .lab/network.yaml
 	cloud-localds --network-config=.lab/network.yaml .lab/seed.iso .lab/user.yaml .lab/meta.yaml
 	disk_dir="/var/lib/libvirt/images/$$VM_NAME"
+	log "Criando disco virtual em $$disk_dir."
 	sudo mkdir -p "$$disk_dir"
 	if sudo test -e "$$disk_dir/lab.qcow2"; then echo 'Disco existente sem VM: inspecione antes de reutilizar.' >&2; exit 1; fi
 	sudo cp --sparse=always ".lab/$$IMAGE_FILE" "$$disk_dir/lab.qcow2"
 	sudo qemu-img resize "$$disk_dir/lab.qcow2" 40G
 	sudo cp .lab/seed.iso "$$disk_dir/seed.iso"
+	log "Registrando e iniciando $$VM_NAME no libvirt."
 	# Não exige que o osinfo-db do servidor 24.04 já conheça Ubuntu 26.04.
 	virt-install --connect qemu:///system --name "$$VM_NAME" --memory 8192 --vcpus 4 --cpu host-passthrough --import --osinfo detect=on,require=off --disk "path=$$disk_dir/lab.qcow2,format=qcow2,bus=virtio" --disk "path=$$disk_dir/seed.iso,device=cdrom" --network "network=$$VM_NETWORK,model=virtio,mac=$$VM_MAC" --graphics none --noautoconsole
+	log "Criação concluída no servidor. A VM está iniciada; o Ubuntu ainda pode estar aplicando o cloud-init."
 
 # NO SERVIDOR: abre um terminal na VM escolhida. Não entra em containers.
 ssh-lab: server-check

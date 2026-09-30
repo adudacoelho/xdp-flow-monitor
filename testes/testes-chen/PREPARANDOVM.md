@@ -38,7 +38,10 @@ Permaneça na pasta escolhida para executar os próximos comandos.
 ```bash
 make vm-up
 ```
-`vm-up` cria a VM na primeira execução e a inicia nas próximas. Aguarde o boot;
+`vm-up` mostra no terminal as etapas de criação, desde a preparação da rede e
+da imagem até o registro e início da VM no servidor. A mensagem de conclusão
+indica que a VM foi iniciada; o Ubuntu ainda pode estar aplicando o cloud-init.
+Nas próximas execuções, `vm-up` apenas inicia a VM existente. Aguarde o boot;
 se `vm-sync` encontrar SSH ainda indisponível, tente novamente depois.
 
 #### Informações da VM
