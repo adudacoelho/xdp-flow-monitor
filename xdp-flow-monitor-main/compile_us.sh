@@ -9,7 +9,7 @@ docker run --rm -v "$(pwd)":/work -w /work ubuntu:24.04 bash -c "
   BPFTOOL=\$(command -v bpftool || ls /usr/lib/linux-tools/*/bpftool 2>/dev/null | head -n1) && \
   echo \"[*] usando bpftool em: \$BPFTOOL\" && \
   \$BPFTOOL gen skeleton flow_monitor.bpf.o > flow_monitor.skel.h && \
-  gcc -g -Wall main.c -o flow_monitor -lbpf -lelf -lz
+  gcc -g -Wall main.c window.c -o flow_monitor -lbpf -lelf -lz
 "
 
 if [ -f flow_monitor ]; then
