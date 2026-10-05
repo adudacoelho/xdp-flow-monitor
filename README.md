@@ -46,9 +46,13 @@ xdp-flow-monitor-main/
 ├── window.c / window.h  # Janela de agregação de métricas
 ├── common.h             # Structs compartilhadas kernel/userspace
 ├── ml_daemon.py         # Daemon de classificação XGBoost
+├── features.py          # Features da Tabela I + carregamento do dataset (µs -> s)
+├── gen_dataset.py       # Gera dataset sintético no formato CIC-DDoS2019
 ├── train_model.py       # Treina o modelo com dataset CSV
+├── evaluate_models.py   # Etapa IV-D do artigo: compara algoritmos (Fig. 7)
+├── test_window.c        # Teste unitário do window.c (sem precisar de BPF)
 dataset/
-└── Syn.csv              # Dataset CIC-DDoS2019 (arquivo 01-12/Syn.csv)
+└── synthetic_ddos.csv   # Sintético (ou Syn.csv do CIC-DDoS2019, se você tiver)
 ```
 ## Diagrama da Topologia
 
@@ -61,53 +65,23 @@ flowchart TD
 
 ## Passo 1 — Gerar o dataset e treinar o modelo
 
-A partir da raiz do repositório (pasta `xdp-flow-monitor`):
+Dentro de `xdp-flow-monitor-main/`:
 
 ```bash
-mkdir -p dataset
-python3 - <<'EOF'
-import pandas as pd
-import numpy as np
+cd xdp-flow-monitor-main
+pip3 install scikit-learn numpy scipy xgboost pandas matplotlib
 
-np.random.seed(42)
-n = 5000
+# Opção A: dataset sintético (classes com sobreposição, formato CIC-DDoS2019)
+python3 gen_dataset.py            # -> dataset/synthetic_ddos.csv
 
-normal = pd.DataFrame({
-    "Flow Duration": np.random.randint(1000000, 10000000, n),
-    "Flow Packets/s": np.random.uniform(1, 1000, n),
-    "Flow Bytes/s": np.random.uniform(100, 100000, n),
-    "ACK Flag Count": np.random.randint(0, 10, n),
-    "SYN Flag Count": np.random.randint(0, 3, n),
-    "RST Flag Count": np.random.randint(0, 1, n),
-    "URG Flag Count": np.zeros(n, dtype=int),
-    "CWR Flag Count": np.zeros(n, dtype=int),
-    "Packet Length Mean": np.random.uniform(100, 1400, n),
-    "Min Packet Length": np.random.randint(40, 200, n),
-    "Label": "BENIGN"
-})
+# Opção B: CIC-DDoS2019 real (ex.: Syn.csv), coloque em dataset/ e apague o sintético
+python3 train_model.py --data dataset/Syn.csv
 
-attack = pd.DataFrame({
-    "Flow Duration": np.random.randint(1000, 5000000, n),
-    "Flow Packets/s": np.random.uniform(100000, 500000000, n),
-    "Flow Bytes/s": np.random.uniform(5000000, 25000000000, n),
-    "ACK Flag Count": np.random.randint(0, 2, n),
-    "SYN Flag Count": np.random.randint(100000, 2000000000, n),
-    "RST Flag Count": np.random.randint(0, 5, n),
-    "URG Flag Count": np.zeros(n, dtype=int),
-    "CWR Flag Count": np.zeros(n, dtype=int),
-    "Packet Length Mean": np.random.uniform(40, 60, n),
-    "Min Packet Length": np.random.randint(40, 60, n),
-    "Label": "DDoS"
-})
-
-df = pd.concat([normal, attack], ignore_index=True).sample(frac=1, random_state=42)
-df.to_csv("dataset/synthetic_ddos.csv", index=False)
-print(f"Dataset gerado: {len(df)} linhas")
-EOF
-
-python3 train_model.py
-cp ddos_model.ubj xdp-flow-monitor-main/
+python3 train_model.py            # lê dataset/*.csv e gera ddos_model.ubj
 ```
+
+> `Flow Duration` do CIC vem em **microssegundos**; o `features.py` converte para
+> segundos (o `window.c` e o `ml_daemon.py` trabalham em segundos).
 
 ## Passo 2 — Compilar o projeto
 
@@ -254,10 +228,20 @@ No terminal do ML daemon:
 
 ## Observações
 
-- O modelo foi treinado com o dataset real **CIC-DDoS2019** (`Syn.csv`), atingindo 100% de acurácia. O dataset contém tráfego real de SYN flood capturado em laboratório pelo grupo CIC da Universidade de New Brunswick.
+- O dataset incluído (`dataset/synthetic_ddos.csv`) é **sintético**, não o CIC-DDoS2019. Para usar o real, veja o Passo 1. A acurácia reportada (~99%) vem de classes que se sobrepõem de propósito; o valor com o CIC real pode ser diferente.
+- `window.c` agora soma **deltas** dos contadores cumulativos que o BPF envia por pacote (antes contava o mesmo pacote milhares de vezes, gerando pkts/s absurdos). Teste: `gcc -O2 -o test_window test_window.c window.c && ./test_window`.
 - O `blacklist_map` bloqueia IPs via XDP com `XDP_DROP`, antes mesmo do pacote chegar ao kernel, tornando o bloqueio extremamente eficiente.
 - A janela de agregação é configurável em `window.h` via `WINDOW_SEC` (padrão: 5 segundos).
 - O monitor deve ser anexado na veth do **atacante**, não da vítima. Na veth da vítima, o XDP captura apenas o tráfego de retorno (RST/ACK), fazendo o `src` reportado ser sempre o IP da vítima.
 - O `flow_monitor.bpf.c` filtra por `dst_port=80`, ignorando pacotes de retorno (RST/ACK) cujo `src_port=80`. Isso garante que apenas o tráfego de ataque (SYN com destino à porta 80) seja monitorado.
 - A interface veth e os IPs dos containers mudam a cada reinício — sempre redescubra ambos antes de rodar o monitor e o ataque.
 - A compilação do programa BPF requer `sudo` (`sudo clang ...`).
+
+## Avaliação de modelos (etapa IV-D do artigo)
+
+```bash
+python3 evaluate_models.py --cv 5          # sintético
+python3 evaluate_models.py --data dataset/Syn.csv --max-rows 200000
+```
+
+Gera em `results/`: `model_comparison.csv/.md`, `fig7a_metrics.png` (accuracy, precision, recall, F1) e `fig7b_detect_rates.png` (taxa de detecção de normal e de ataque). Modelos: Logistic Regression, Naive Bayes, KNN, SVM (RBF), Decision Tree, Random Forest, MLP e XGBoost.
