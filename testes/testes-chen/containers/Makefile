@@ -32,6 +32,10 @@ check:
 	test "$$(stat -c %u /etc/xdp-chen-host)" = 0
 	role=$$(cat /etc/xdp-chen-lab)
 	case "$$role" in target) local_ip=192.168.157.20; peer=192.168.157.10;; generator) local_ip=192.168.157.10; peer=192.168.157.20;; *) exit 1;; esac
+	if [ "$$(cat /sys/class/net/lab0/mtu)" != 1500 ]; then
+		echo 'ERRO: lab0 deve usar MTU 1500 nas duas pontas. Atualize e recrie o laboratório pelo roteiro do servidor.' >&2
+		exit 1
+	fi
 	ip -o -4 addr show dev lab0 | grep -Fq "$$local_ip/24"
 	test -z "$$(ip -4 route show default)"
 	ip -4 route get "$$peer" | grep -q 'dev lab0'
@@ -69,12 +73,23 @@ serve: check
 	cd "$$REPO_ROOT"
 	test "$$(cat /etc/xdp-chen-lab)" = target
 	$(parameters)
+	exec 8>/run/chen-service.lock
+	flock -n 8 || { echo 'ERRO: outro serviço do laboratório já está ativo. Encerre-o no terminal 1.' >&2; exit 1; }
+	listeners=$$(ss -H -ltnp 'sport = :80')
+	if [ -n "$$listeners" ]; then
+		echo 'ERRO: porta TCP 80 ocupada. Encerre o serviço anterior antes de iniciar iperf/Ethr.' >&2
+		printf '%s\n' "$$listeners" >&2
+		exit 1
+	fi
 	case "$$SERVICE" in
 	iperf) command=(iperf3 -s -B 192.168.157.20 -p 80 -J);;
 	ethr) command=(ethr -s -ip 192.168.157.20 -port 80 -o "$$out/ethr.json");;
 	*) echo 'SERVICE=iperf ou ethr' >&2; exit 1;; esac
 	rc=0; timeout --signal=TERM --kill-after=5 "$$DURATION" "$${command[@]}" > "$$out/server.log" 2>&1 || rc=$$?
-	[[ $$rc == 0 || $$rc == 124 ]]
+	if [[ $$rc != 0 && $$rc != 124 ]] || grep -Eqi 'Fatal error|unable to start listener' "$$out/server.log"; then
+		cat "$$out/server.log" >&2
+		exit 1
+	fi
 
 # DENTRO DO CONTAINER generator: envia carga somente ao enlace de teste.
 # PCAP é relativo à raiz /workspace, mesmo chamando make na pasta containers.
@@ -108,6 +123,13 @@ traffic: check
 		test -z "$$bad"
 		timeout --kill-after=5 "$$((DURATION+15))" tcpreplay --intf1=lab0 --pps="$$PPS" --loop=0 --duration="$$DURATION" "$$PCAP" > "$$out/tcpreplay.log" 2>&1;;
 	esac
+	if [ "$$KIND" = latency ]; then
+		if grep -Eqi 'Failed|Fatal error' "$$out/ethr.log" || ! grep -q '"Type":"LatencyResult"' "$$out/ethr.json"; then
+			echo 'ERRO: Ethr falhou ou não produziu amostras. Confira o serviço Ethr no terminal 1.' >&2
+			cat "$$out/ethr.log" >&2
+			exit 1
+		fi
+	fi
 	date -u +%s.%N > "$$out/end-epoch.txt"
 
 # DENTRO DO CONTAINER target: executa o comparador e registra as métricas.
@@ -116,7 +138,7 @@ observe: check
 	test "$$(cat /etc/xdp-chen-lab)" = target
 	$(parameters)
 	exec 9>/run/chen-observe.lock; flock -n 9
-	if ip -details link show lab0 | grep -q 'prog/xdp'; then echo 'Já há XDP anexado em lab0. Encerre a execução anterior.' >&2; exit 1; fi
+	if ip -j -details link show lab0 | python3 -c 'import json,sys; sys.exit(0 if any(d.get("xdp", {}).get("attached", 0) for d in json.load(sys.stdin)) else 1)'; then echo 'Já há XDP anexado em lab0. Encerre a execução anterior.' >&2; exit 1; fi
 	pids=(); chain=0; jump=0; ml_started=0
 	trap 'for pid in "$${pids[@]}"; do kill "$$pid" 2>/dev/null || true; done; wait || true; if (( jump )); then iptables-legacy -D INPUT -i lab0 -j CHEN_LAB; fi; if (( chain )); then iptables-legacy -F CHEN_LAB; iptables-legacy -X CHEN_LAB; fi; if (( ml_started )); then rm -f /tmp/ml_engine.sock; fi' EXIT
 	case "$$MODE" in
@@ -145,7 +167,21 @@ observe: check
 	*) echo 'MODE não disponível. O filtro BPF adicional foi removido; XDP estático não está implementado no detector original.' >&2; exit 1;;
 	esac
 	sleep 2
-	for pid in "$${pids[@]}"; do kill -0 "$$pid"; done
+	for pid in "$${pids[@]}"; do
+		if ! kill -0 "$$pid" 2>/dev/null; then
+			echo "ERRO: coletor/comparador encerrou antes de PRONTO. Consulte $$out" >&2
+			if [ -f "$$out/monitor.log" ]; then cat "$$out/monitor.log" >&2; fi
+			exit 1
+		fi
+	done
+	case "$$MODE" in collection-current|detector-current)
+		ip -j -details link show lab0 > "$$out/xdp-attached.json"
+		if ! python3 -c 'import json,sys; sys.exit(0 if any(d.get("xdp", {}).get("attached", 0) for d in json.load(open(sys.argv[1]))) else 1)' "$$out/xdp-attached.json"; then
+			echo 'ERRO: XDP não está anexado; rodada cancelada antes de PRONTO.' >&2
+			cat "$$out/monitor.log" >&2
+			exit 1
+		fi;;
+	esac
 	# Duração limitada evita coleta esquecida; não garante tráfego constante.
 	# Analise o intervalo da carga para não misturar ociosidade com tráfego.
 	echo "ATENÇÃO: a observação termina automaticamente após $$DURATION segundos; não espera pelo gerador."

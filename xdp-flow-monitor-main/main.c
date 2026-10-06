@@ -134,7 +134,7 @@ static int handle_event(void *ctx, void *data, size_t data_sz) {
 int main(int argc, char **argv) {
     struct flow_monitor_bpf *skel;
     struct ring_buffer *rb = NULL;
-    int err;
+    int err = 0;
 
     if (argc < 2) {
         fprintf(stderr, "Uso: %s <interface_de_rede>\n", argv[0]);
@@ -157,14 +157,22 @@ int main(int argc, char **argv) {
 // Guarda o fd do blacklist_map para uso no update_blacklist()
     blacklist_map_fd = bpf_map__fd(skel->maps.blacklist_map);
     if (blacklist_map_fd < 0) {
+        err = blacklist_map_fd;
         fprintf(stderr, "Falha ao obter fd do blacklist_map\n");
         goto cleanup;
     }
 
     skel->links.network_flow_monitor = bpf_program__attach_xdp(
         skel->progs.network_flow_monitor, ifindex);
-    if (!skel->links.network_flow_monitor) {
-        fprintf(stderr, "Falha ao anexar programa BPF na interface\n");
+    err = libbpf_get_error(skel->links.network_flow_monitor);
+    if (err || !skel->links.network_flow_monitor) {
+        if (!err) err = errno ? -errno : -EIO;
+        /* Libbpf antiga pode retornar ERR_PTR, que não é um link válido. */
+        skel->links.network_flow_monitor = NULL;
+        fprintf(stderr, "Falha ao anexar XDP em %s: %s (%d).\n",
+                argv[1], strerror(-err), -err);
+        if (err == -ERANGE)
+            fprintf(stderr, "Confira a MTU das duas pontas do enlace; o laboratório usa 1500.\n");
         goto cleanup;
     }
 
@@ -172,6 +180,7 @@ int main(int argc, char **argv) {
 
 
     if (!rb) {
+        err = errno ? -errno : -ENOMEM;
         fprintf(stderr, "Falha ao criar o ring buffer\n");
         goto cleanup;
     }

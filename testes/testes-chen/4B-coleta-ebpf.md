@@ -294,6 +294,23 @@ make traffic KIND=latency DURATION=120 RUN=fig5-lat-collection-current-r1
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
 
 
+## Correções após a primeira execução
+
+As rodadas antigas `collection-current` registraram falha de anexação XDP e
+não medem o custo do eBPF. A topologia passou de MTU 9500 para 1500 nas duas
+pontas; repita baseline, TShark e eBPF nessa configuração antes de compará-los.
+Siga a atualização em [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
+
+Se a porta 80 estiver ocupada, o serviço agora mostra o processo que a utiliza
+e encerra com erro. Ao trocar iperf por Ethr, encerre o serviço anterior no
+terminal 1. Não inicie a carga se o serviço falhar.
+
+O cliente Ethr também recusa uma rodada com erro de handshake ou sem amostras.
+Os percentis do JSON Ethr 1.0.0 observados nos primeiros resultados apresentaram
+inconsistências; não os publique sem conferir a correspondência com o log textual.
+Essa alteração não corrige o formato dos percentis do Ethr nem o problema de
+contagem cumulativa do coletor.
+
 ## Resultados e interpretação
 
 Os arquivos ficam em `/workspace/results/` no respectivo container. No servidor,

@@ -77,7 +77,8 @@ ambiente e as variáveis exigidas pela topologia. Cria:
 
 Os containers têm um enlace direto, sem rota padrão nem portas publicadas.
 Use esse enlace para o tráfego e anexe o monitor à `lab0` dentro de `target`.
-Eles compartilham os recursos e o kernel do servidor.
+Eles compartilham os recursos e o kernel do servidor. As duas interfaces
+`lab0` usam MTU 1500, configurada na topologia para o laboratório XDP.
 
 Há uma instância `chen` por servidor. Se ela já existir, consulte seu estado antes
 de repetir o deploy. Se o alvo indicar que `/etc/xdp-chen-lab` pertence a outro
@@ -183,3 +184,19 @@ alterações. Para consultar os comandos disponíveis, use `make help`.
 
 Os comandos foram revisados localmente; instalação e execução do laboratório
 ainda precisam ser validadas no servidor.
+
+## Atualização após as primeiras coletas do 4B
+
+Os registros antigos mostraram MTU 9500 e falha ao anexar XDP com `ERANGE`.
+A topologia agora configura MTU 1500 nas duas pontas. O monitor trata erros de
+anexação e a observação exige XDP anexado antes de anunciar `PRONTO`.
+A eficácia da mudança de MTU ainda deve ser confirmada no servidor.
+
+Com as execuções encerradas, atualize o projeto no servidor pelo fluxo habitual
+e aplique a sequência da seção 10 (`clab-down`, `clab-image`, `clab-up`,
+`clab-check`, `clab-build`). A reconstrução da imagem é necessária porque ela
+contém o código e o Makefile. Os resultados montados são preservados.
+
+Repita todos os cenários que serão comparados com a nova MTU; não misture
+baseline/TShark antigos em MTU 9500 com eBPF novo em MTU 1500. Use novos nomes
+`RUN` e preserve os dados anteriores como diagnóstico.

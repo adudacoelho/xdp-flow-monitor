@@ -15,6 +15,7 @@ topology:
         - sh -c 'echo generator > /etc/xdp-chen-lab'
         - ip link set dev lab0 address 52:54:00:ce:02:10
         - ip addr add 192.168.157.10/24 dev lab0
+        - ip link set dev lab0 mtu 1500
         - ip link set dev lab0 up
         - sysctl -w net.ipv4.ip_forward=0
     target:
@@ -24,6 +25,7 @@ topology:
         - sh -c 'echo target > /etc/xdp-chen-lab'
         - ip link set dev lab0 address 52:54:00:ce:02:20
         - ip addr add 192.168.157.20/24 dev lab0
+        - ip link set dev lab0 mtu 1500
         - ip link set dev lab0 up
         - sysctl -w net.ipv4.ip_forward=0
         - mount -t bpf bpf /sys/fs/bpf
