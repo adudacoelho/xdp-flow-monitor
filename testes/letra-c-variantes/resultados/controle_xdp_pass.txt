@@ -1,0 +1,4 @@
+iperf3 20 s, atacante1 para vitima, veth em modo driver
+sem_xdp:       sender 41.1 Gbps (receiver mostrou 30 s, artefato de temporizacao)
+com_xdp_pass:  sender 6.12 Gbps, receiver 6.10 Gbps
+sem_xdp_2:     sender 37.1 Gbps, receiver 37.0 Gbps
