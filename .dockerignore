@@ -8,8 +8,10 @@ dataset
 **/__pycache__
 lab/clab-*
 
-# Dados e arquivos locais das pastas de cada VM.
+# Dados e arquivos locais do laboratório.
 **/.lab
 **/results
 **/build
 **/.venv
+
+**/results-servidor
