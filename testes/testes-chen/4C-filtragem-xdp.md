@@ -1,12 +1,32 @@
 # IV-C — Filtragem XDP
 
-Preparação: [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md). Os alvos de teste
-são executados dentro dos containers, em `/workspace/testes/testes-chen/containers`.
+**ESTADO: procedimento experimental ainda pendente.**
 
-Objetivo: comparar throughput, CPU e memória entre XDP e iptables, variando
-o número de regras (Figura 6).
+Objetivo: Comparar throughput, CPU e memória entre XDP e iptables, variando o número de regras (Figura 6).
 
-Passo a passo pendente. O filtro BPF adicional foi removido; `MODE=xdp` não é
-um modo disponível no Makefile atual. A comparação deve ser organizada usando
-a implementação do projeto, sem presumir que o detector equivale a um filtro
-estático isolado. O comparador `MODE=iptables` continua disponível.
+## Antes de começar — entrar no container TARGET
+
+Prepare o ambiente seguindo [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
+Em uma sessão SSH **no servidor**, execute:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=target
+```
+
+O prompt deve mostrar `root@target`, na pasta
+`/workspace/testes/testes-chen/containers`. Se já estiver nesse container:
+
+```bash
+cd /workspace/testes/testes-chen/containers
+```
+
+## O que falta para executar a comparação
+
+O filtro BPF adicional foi removido. **`MODE=xdp` não existe no Makefile atual.**
+O comparador `MODE=iptables` está disponível, mas ainda precisamos definir o
+procedimento de comparação usando a implementação do projeto, com quantidades
+de regras e cargas equivalentes. O detector completo não equivale a um filtro
+estático isolado.
+
+Ainda não há uma sequência completa de comandos para este experimento.

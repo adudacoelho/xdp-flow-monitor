@@ -50,7 +50,9 @@ build: check
 
 # Validação de parâmetros repetida por expansão textual do Makefile, sem scripts.
 define parameters
-[[ "$$DURATION" =~ ^[0-9]+$$ ]] && (( DURATION >= 1 && DURATION <= 600 ))
+duration_limit=600
+if [ "$@" = serve ]; then duration_limit=1200; fi
+[[ "$$DURATION" =~ ^[0-9]+$$ ]] && (( DURATION >= 1 && DURATION <= duration_limit ))
 [[ "$$RUN" =~ ^[a-zA-Z0-9_-]+$$ ]]
 out="results/$$(date -u +%Y%m%dT%H%M%S%N)-$@-$$RUN"
 mkdir -p "$$out"
@@ -144,6 +146,12 @@ observe: check
 	esac
 	sleep 2
 	for pid in "$${pids[@]}"; do kill -0 "$$pid"; done
+	# Duração limitada evita coleta esquecida; não garante tráfego constante.
+	# Analise o intervalo da carga para não misturar ociosidade com tráfego.
+	echo "ATENÇÃO: a observação termina automaticamente após $$DURATION segundos; não espera pelo gerador."
+	echo 'Deixe o comando de tráfego preparado e execute imediatamente após PRONTO.'
+	echo 'No roteiro 4B, a margem é de 20 s: procure iniciar em até 10 s e confira os horários registrados.'
+	echo 'Analise somente o período da carga; incluir ociosidade pode distorcer CPU e memória.'
 	echo "PRONTO: inicie a carga em generator. Resultados: $$out"
 	date -u +%s.%N > "$$out/start-epoch.txt"
 	# /proc: CPU e memória do servidor compartilhado; rede do namespace da vítima.

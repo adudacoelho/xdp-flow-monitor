@@ -1,16 +1,73 @@
 # IV-E — Sistema completo
 
-Roteiro preliminar migrado do documento geral; validar no servidor antes da série.
-Prepare o ambiente seguindo [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
-Execute os comandos abaixo nos containers, na pasta
-`/workspace/testes/testes-chen/containers`, aberta por `make clab-shell NODE=target`
-ou `make clab-shell NODE=generator` no servidor.
+**Roteiro preliminar: ainda há pendências de instrumentação e de validação do
+detector.** Os comandos abaixo não produzem, sozinhos, uma reprodução válida
+dos tempos por etapa ou da detecção do artigo.
 
-## 7. Tabela II — replay e tempos por etapa (seção IV-E)
+## Antes de começar — abrir os terminais
+
+Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo a compilação
+com `make clab-build`. Abra **uma sessão SSH no servidor para cada terminal**
+abaixo. Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
+
+| Terminal | Container | Função |
+| --- | --- | --- |
+| 1 | `target` | Serviço que recebe conexões |
+| 2 | `target` | Observação e coleta de métricas |
+| 3 | `generator` | Geração de tráfego |
+| 4 | `generator` | Tráfego TCP simultâneo ao ataque |
+
+### TERMINAL 1 — NO SERVIDOR: entrar em TARGET
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=target
+```
+
+
+### TERMINAL 2 — NO SERVIDOR: entrar em TARGET
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=target
+```
+
+
+### TERMINAL 3 — NO SERVIDOR: entrar em GENERATOR
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=generator
+```
+
+
+### TERMINAL 4 — NO SERVIDOR: entrar em GENERATOR
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=generator
+```
+
+O shell já abre em `/workspace/testes/testes-chen/containers`.
+Confira o prompt: **`root@target` nos terminais 1 e 2** e
+**`root@generator` nos terminais de geração**.
+Se já estiver no container correto, basta entrar na pasta:
+
+```bash
+cd /workspace/testes/testes-chen/containers
+```
+
+**Execute cada bloco somente no terminal indicado.** Os comandos de serviço,
+observação e tráfego ocupam o terminal até terminarem. Não cole todos os blocos
+em um único shell. Para sair de um container, use `exit 0`.
+
+## Experimento 1 — Replay e tempos por etapa (Tabela II)
 
 1. Obtenha um PCAP real, selecione somente o sentido atacante → vítima e
    preserve o original. Não transforme o tráfego de retorno em ataque.
-2. Na generator, converta a cópia selecionada em PCAP clássico Ethernet/IPv4
+### TERMINAL 3 — GENERATOR: preparar o PCAP
+
+Converta a cópia selecionada em PCAP clássico Ethernet/IPv4
    (sem VLAN), e reescreva endereços/MACs para o laboratório:
 
 ```bash
@@ -21,8 +78,15 @@ tcprewrite --infile=/workspace/results/attack-only.pcap --outfile=/workspace/res
   --enet-smac=52:54:00:ce:02:10 --enet-dmac=52:54:00:ce:02:20 --fixcsum
 ```
 
-3. Target: `make observe MODE=collection-current DURATION=140 RUN=table2-r1`.
-4. Generator:
+### TERMINAL 2 — TARGET: iniciar a observação
+
+```bash
+make observe MODE=collection-current DURATION=140 RUN=table2-r1
+```
+
+**Aguarde `PRONTO` antes de iniciar o replay.**
+
+### TERMINAL 3 — GENERATOR: executar o replay
 
 ```bash
 make traffic KIND=replay PCAP=results/lab.pcap PPS=180163 DURATION=120 RUN=table2-r1
@@ -41,16 +105,48 @@ por janela não é tempo por pacote. Não dividir 120 s pelo número de pacotes
 nem tratar o inverso de 180.163 pps como latência de processamento. Referências
 publicadas: 12,68 µs (eBPF), 11,96 µs (XGBoost), 5,72 µs (XDP).
 
-## 8. Fig. 8 — sistema completo versus Snort (seção IV-E)
+## Experimento 2 — Sistema completo versus Snort (Figura 8)
 
-1. Target/serviço: inicie iperf como antes.
-2. Target: `make observe MODE=snort DURATION=150 RUN=fig8-snort-5000-r1`.
-3. Generator/carga: `make traffic KIND=udp PPS=5000 DURATION=120 RUN=fig8-snort-5000-r1`.
-4. Em outro terminal generator, durante a mesma carga, execute
-   `make traffic KIND=tcp DURATION=110 RUN=fig8-snort-5000-tcp-r1`.
-5. Repita usando `MODE=baseline` e `MODE=detector-current`.
-6. Repita para **5.000, 10.000, 50.000, 100.000 e 150.000 pps** (Fig. 8),
-   sempre registrando a taxa realmente alcançada, e faça as cinco repetições.
+### TERMINAL 1 — TARGET: iniciar o serviço
+
+```bash
+make serve SERVICE=iperf DURATION=600 RUN=fig8-server
+```
+
+Mantenha-o ativo. Se encerrar após 600 segundos, reinicie antes da próxima rodada.
+
+### TERMINAL 2 — TARGET: observar com Snort
+
+```bash
+make observe MODE=snort DURATION=150 RUN=fig8-snort-5000-r1
+```
+
+**Aguarde `PRONTO`.** Em seguida, inicie a carga no terminal 3 e, logo depois,
+o tráfego TCP no terminal 4, enquanto a carga ainda estiver rodando.
+
+### TERMINAL 3 — GENERATOR: iniciar a carga UDP
+
+```bash
+make traffic KIND=udp PPS=5000 DURATION=120 RUN=fig8-snort-5000-r1
+```
+
+### TERMINAL 4 — GENERATOR: iniciar o TCP simultâneo
+
+```bash
+make traffic KIND=tcp DURATION=110 RUN=fig8-snort-5000-tcp-r1
+```
+
+### Próximas rodadas
+
+Aguarde os terminais 2, 3 e 4 retornarem ao prompt antes de cada nova rodada.
+Repita a sequência com `MODE=baseline` e `MODE=detector-current` no terminal 2.
+Atualize também `snort` no nome `RUN` dos três comandos para identificar o modo.
+
+Repita para **5.000, 10.000, 50.000, 100.000 e 150.000 pps**, alterando `PPS`
+no terminal 3 e a identificação da taxa nos nomes `RUN`. Registre a taxa
+realmente alcançada e faça cinco repetições, identificadas por `r1` a `r5`.
+
+## Interpretação e pendências
 
 Para permitir tráfego TCP legítimo simultâneo ao UDP, cada tipo de carga usa um
 lock próprio. As janelas de medição são diferentes: CPU/memória durante os 120 s

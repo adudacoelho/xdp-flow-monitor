@@ -120,8 +120,12 @@ Para entrar no gerador, em outra sessão SSH na mesma pasta do servidor:
 ```bash
 make clab-shell NODE=generator
 ```
+Para voltar ao servidor, digite:
+```bash
+exit 0
+```
 
-Digite `exit` para voltar ao servidor. O terminal abre em
+O terminal abre em
 `/workspace/testes/testes-chen/containers`, onde ficam os alvos internos de
 compilação, coleta e geração de tráfego. A execução de cada experimento está
 nos arquivos de testes 4B–4E.
@@ -137,7 +141,7 @@ make host-record
 Salva informações do sistema, kernel, código, Docker, Containerlab e imagem em
 `testes/testes-chen/results-servidor/`. Os dados gravados em `/workspace/results`
 pelos containers ficam diretamente nas subpastas `generator/` e `target/` desse
-diretório. Não é necessário copiar resultados de uma VM.
+diretório.
 
 Após a preparação, siga o arquivo do experimento:
 
