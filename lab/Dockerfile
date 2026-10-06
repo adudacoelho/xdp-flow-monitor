@@ -15,6 +15,13 @@ RUN python3 -m venv /workspace/.venv && \
     /workspace/.venv/bin/pip install --no-cache-dir \
       numpy==1.26.4 pandas==2.2.3 scikit-learn==1.5.2 xgboost==2.1.4 && \
     /workspace/.venv/bin/pip freeze > /workspace/.venv/installed-versions.txt
-RUN GOBIN=/usr/local/bin go install github.com/microsoft/ethr@v1.0.0
+# Ethr 1.0.0 não fixa x/net; versões recentes exigem Go posterior ao 1.18.
+# Um módulo de build fixa as dependências sem alterar o Go do servidor.
+RUN mkdir -p /tmp/ethr-build && cd /tmp/ethr-build && \
+    go mod init local/ethr-build && \
+    go mod edit -require=github.com/microsoft/ethr@v1.0.0 \
+      -require=golang.org/x/net@v0.17.0 -require=golang.org/x/sys@v0.13.0 && \
+    GOBIN=/usr/local/bin go install -mod=mod github.com/microsoft/ethr && \
+    rm -rf /tmp/ethr-build
 COPY . /workspace
 CMD ["sleep", "infinity"]
