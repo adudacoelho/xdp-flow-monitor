@@ -10,8 +10,11 @@ CHEN_STATE := $(CURDIR)/.lab
 CLAB_VERSION := 0.69.3
 NODE ?= target
 export CHEN_ROOT CHEN_RESULTS CHEN_STATE CLAB_VERSION NODE
+SERVER ?=
+SERVER_REPO ?=
+export SERVER SERVER_REPO
 
-.PHONY: help server-check host-check host-setup clab-setup clab-image clab-up clab-status clab-check clab-build clab-shell host-record clab-down
+.PHONY: get-results help server-check host-check host-setup clab-setup clab-image clab-up clab-status clab-check clab-build clab-shell host-record clab-down
 
 help:
 	@echo 'NO SERVIDOR, nesta pasta:'
@@ -25,6 +28,7 @@ help:
 	echo '  make clab-shell NODE=target|generator — abrir terminal'
 	echo '  make host-record      — salvar informações do ambiente'
 	echo '  make clab-down        — remover laboratório, preservando resultados'
+	echo 'NO PC: make get-results SERVER=usuario@servidor SERVER_REPO=/caminho/do/projeto'
 
 server-check:
 	@test ! -e /.dockerenv || { echo 'Execute no servidor, fora dos containers.' >&2; exit 1; }
@@ -82,21 +86,21 @@ clab-up: server-check
 clab-status: server-check
 	sudo env CHEN_ROOT="$$CHEN_ROOT" CHEN_RESULTS="$$CHEN_RESULTS" containerlab inspect -t "$$CHEN_ROOT/lab/topology.clab.yml"
 
-# Reutiliza somente os alvos internos de check/build, sem administrar VMs.
+# Usa os alvos internos dos containers para conferir e compilar o projeto.
 clab-check: server-check
 	for node in generator target; do
-		sudo docker exec "clab-chen-$$node" make -C /workspace/testes/testes-chen/vm-ubuntu2204 VM_TAG=servidor check
+		sudo docker exec "clab-chen-$$node" make -C /workspace/testes/testes-chen/containers check
 	done
 	sudo docker exec clab-chen-generator ping -c 3 192.168.157.20
 	sudo docker exec clab-chen-target findmnt -t bpf /sys/fs/bpf
 	sudo docker exec clab-chen-target bpftool feature probe kernel
 
 clab-build: server-check
-	sudo docker exec clab-chen-target make -C /workspace/testes/testes-chen/vm-ubuntu2204 VM_TAG=servidor build
+	sudo docker exec clab-chen-target make -C /workspace/testes/testes-chen/containers build
 
 clab-shell: server-check
 	@case "$$NODE" in generator|target) ;; *) echo 'Use NODE=generator ou NODE=target.' >&2; exit 1;; esac
-	sudo docker exec -it -e VM_TAG=servidor -w /workspace/testes/testes-chen/vm-ubuntu2204 "clab-chen-$$NODE" bash
+	sudo docker exec -it -w /workspace/testes/testes-chen/containers "clab-chen-$$NODE" bash
 
 host-record: server-check
 	mkdir -p "$$CHEN_RESULTS"
@@ -112,3 +116,12 @@ host-record: server-check
 clab-down: server-check
 	sudo env CHEN_ROOT="$$CHEN_ROOT" CHEN_RESULTS="$$CHEN_RESULTS" containerlab destroy -t "$$CHEN_ROOT/lab/topology.clab.yml"
 	if [ -d "$$CHEN_RESULTS" ]; then sudo chown -R "$$(id -u):$$(id -g)" "$$CHEN_RESULTS"; fi
+
+# NO PC: baixa os resultados diretamente do servidor.
+get-results:
+	@test ! -e /etc/xdp-chen-lab
+	test ! -e /.dockerenv
+	if [ -z "$$SERVER" ] || [[ "$$SERVER" == -* ]] || [[ "$$SERVER" == *[[:space:]]* ]]; then echo 'Informe SERVER=usuario@servidor.' >&2; exit 1; fi
+	if [[ "$$SERVER_REPO" != /* ]]; then echo 'Informe SERVER_REPO com o caminho absoluto do projeto no servidor.' >&2; exit 1; fi
+	mkdir -p "$$CHEN_RESULTS"
+	rsync -azs --exclude=.gitkeep "$$SERVER:$$SERVER_REPO/testes/testes-chen/results-servidor/" "$$CHEN_RESULTS/"

@@ -6,9 +6,10 @@ push ou pull dos resultados.
 
 ## 1. Antes de copiar
 
-Os resultados precisam ter sido recuperados da VM com `make vm-results`,
-executado **no servidor**, na pasta da versão correspondente. Confira se esse
-comando terminou sem erro. `get-results` busca os arquivos no servidor, não na VM.
+Os containers gravam diretamente em `testes/testes-chen/results-servidor/`
+no servidor, nas subpastas `generator/` e `target/`. Após encerrar as execuções,
+`make clab-down` preserva esses dados e devolve sua propriedade ao usuário.
+Não há etapa intermediária de recuperação de uma VM.
 
 **Os próximos passos são feitos no seu PC**, em um terminal Bash, fora da sessão
 SSH. O PC precisa ter uma cópia do projeto com os Makefiles, além de `make`,
@@ -37,7 +38,7 @@ export SERVER_REPO='/home/SEU_USUARIO/xdp-flow-monitor'
 
 - `SERVER`: seu usuário SSH e o endereço do servidor, como você usa para se conectar.
 - `SERVER_REPO`: caminho absoluto da raiz do projeto **no servidor**, sem acrescentar
-  `testes/testes-chen` ou a pasta de uma versão. Se tiver dúvida, execute `pwd`
+  `testes/testes-chen` ou a pasta de containers. Se tiver dúvida, execute `pwd`
   dentro da raiz do projeto no servidor.
 
 No nano, salve com `Ctrl+O`, confirme com `Enter` e saia com `Ctrl+X`.
@@ -57,40 +58,27 @@ source ~/.config/xdp-flow-monitor/servidor.conf
 Isso disponibiliza os dois valores para o Makefile. Repita este comando ao abrir
 um novo terminal; não é necessário reescrever o arquivo.
 
-## 4. Baixar os resultados da versão desejada
+## 4. Baixar os resultados
 
-Para Ubuntu 22.04, entre na pasta correspondente **no seu PC**, ajustando o caminho:
-
-```bash
-cd /CAMINHO/DO/PROJETO/testes/testes-chen/vm-ubuntu2204
-```
-
-Depois execute:
+Entre na pasta do laboratório **no seu PC**, ajustando o caminho:
 
 ```bash
+cd /CAMINHO/DO/PROJETO/testes/testes-chen
 make get-results
 ```
 
-Aguarde terminar sem erro. Para Ubuntu 26.04, use os mesmos comandos na pasta
-`vm-ubuntu2604`. A configuração do servidor é a mesma para as duas versões.
-
-Cada comando copia os dados para a pasta `results/` da versão selecionada no PC.
-As subpastas `generator/` e `target/` são preservadas. A cópia não remove arquivos
-locais que só existam no PC, mas pode atualizar arquivos de mesmo nome.
-`RESULTADOS.md` não faz parte dessa transferência.
+O comando copia `results-servidor/` do servidor para a mesma pasta relativa no
+PC, preservando as subpastas `generator/` e `target/`. Não remove arquivos
+exclusivamente locais, mas pode atualizar arquivos de mesmo nome.
 
 ## 5. Conferir a cópia
 
-Ainda na pasta do Makefile da versão, execute:
-
 ```bash
-ls -lhR results/
+ls -lhR results-servidor/
 ```
 
-Confira se os arquivos correspondem à execução desejada. Pastas vazias ou apenas
-`.gitkeep` não indicam que houve coleta. Os dados de `results/` continuam ignorados
-pelo Git; `.gitkeep` apenas mantém a estrutura da pasta no repositório.
+Confira se os arquivos correspondem à execução desejada. Pastas vazias não
+indicam coleta. Os resultados continuam ignorados pelo Git.
 
-Se aparecer erro de conexão ou autenticação, confira seu acesso com
-`ssh "$SERVER"`. Se aparecer erro de caminho, revise `SERVER_REPO` e confirme
-que `vm-results` já foi executado no servidor para aquela versão.
+Em caso de erro de conexão, confira seu acesso com `ssh "$SERVER"`. Para erros
+de caminho, revise `SERVER_REPO` e a existência de `results-servidor/` no servidor.

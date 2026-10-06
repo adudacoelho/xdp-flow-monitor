@@ -121,10 +121,10 @@ Para entrar no gerador, em outra sessão SSH na mesma pasta do servidor:
 make clab-shell NODE=generator
 ```
 
-Digite `exit` para voltar ao servidor. O terminal já abre na pasta dos alvos
-internos, com a identificação do ambiente configurada. Essa pasta ainda se chama
-`vm-ubuntu2204` porque reutilizamos seus alvos de compilação e verificação; não
-há criação ou acesso a uma VM.
+Digite `exit` para voltar ao servidor. O terminal abre em
+`/workspace/testes/testes-chen/containers`, onde ficam os alvos internos de
+compilação, coleta e geração de tráfego. A execução de cada experimento está
+nos arquivos de testes 4B–4E.
 
 ## 9. Registrar o ambiente e localizar resultados
 
@@ -139,12 +139,18 @@ Salva informações do sistema, kernel, código, Docker, Containerlab e imagem e
 pelos containers ficam diretamente nas subpastas `generator/` e `target/` desse
 diretório. Não é necessário copiar resultados de uma VM.
 
-Os roteiros [4B](4B-coleta-ebpf.md), [4C](4C-filtragem-xdp.md),
-[4D](4D-classificacao.md) e [4E](4E-sistema-completo.md) ainda têm referências ao
-fluxo antigo e pendências experimentais. Antes das medições, adapte os registros:
-CPU e memória coletadas por `mpstat`/`sar` refletem o servidor compartilhado; o
-campo legado `vm-version.txt` dos alvos de testes não identifica este ambiente.
-Registre também a concorrência com outros serviços.
+Após a preparação, siga o arquivo do experimento:
+
+- [4B — Coleta eBPF](4B-coleta-ebpf.md): throughput, CPU, memória e latência.
+- [4C — Filtragem XDP](4C-filtragem-xdp.md): comparação com iptables.
+- [4D — Classificação](4D-classificacao.md): avaliação do modelo.
+- [4E — Sistema completo](4E-sistema-completo.md): integração e replay.
+
+CPU e memória coletadas por `mpstat`/`sar` refletem o servidor compartilhado.
+Registre a concorrência com outros serviços. Cada execução salva
+`environment.txt`, `container-os.txt` e `kernel.txt`; o Ubuntu do container
+não determina a versão do kernel. Para copiar os dados para seu PC, siga
+[OBTENDORESULTADOS.md](OBTENDORESULTADOS.md).
 
 ## 10. Encerrar ou atualizar o laboratório
 

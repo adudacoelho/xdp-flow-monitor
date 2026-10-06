@@ -1,5 +1,10 @@
 # Reprodução de Chen et al. (2024)
 
+Ambiente atual: Docker e Containerlab diretamente no servidor, sem VM.
+Preparação em [PREPARANDOSERVIDOR.md](testes/testes-chen/PREPARANDOSERVIDOR.md)
+e execução nos roteiros 4B–4E da mesma pasta. O diagnóstico abaixo registra
+a inspeção de 2026-09-08; não é uma validação do ambiente atual.
+
 Diagnóstico inicial em 2026-09-08. Fonte: PDF fornecido pelo usuário,
 “Efficient DDoS Detection and Mitigation in Cloud Data Centers Using eBPF and XDP”,
 pp. 1869–1874, DOI 10.1109/TrustCom63139.2024.00258.
@@ -23,7 +28,7 @@ O ambiente publicado usa seis máquinas, cada uma com Intel Xeon E5-2660 0
 @ 2,20 GHz, 4 vCPUs, 8 GB RAM, Ubuntu 22.04, kernel 5.15.0-33-lowlatency e
 Kubernetes 1.23.4. A aplicação é o social network do DeathStarBench.
 Há dois containers atacantes no Host 1, um no Host 2 e monitoramento no Host 3.
-Uma VM com containers deve ser apresentada como reprodução adaptada.
+Nosso servidor com containers deve ser apresentado como reprodução adaptada.
 
 ## Problemas encontrados no código
 
@@ -103,6 +108,6 @@ de `window.c` e entradas controladas, sem carregar BPF. Kernel local observado:
 operacional ainda não validada. iperf3, ethr, hping3, tcpreplay e Snort não
 foram encontrados no PATH. Nenhum benchmark de rede foi executado.
 
-Pendente de informação do usuário: máquina/VM/cluster de execução e localização
-dos dados reais/PCAPs. Essas informações definem a topologia executável e quais
-comparações serão reproduções adaptadas.
+Atualização: a execução foi definida diretamente no servidor com containers.
+Continuam pendentes a localização dos dados reais/PCAPs e a validação do
+ambiente no servidor.

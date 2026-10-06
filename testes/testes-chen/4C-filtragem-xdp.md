@@ -1,5 +1,8 @@
 # IV-C — Filtragem XDP
 
+Preparação: [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md). Os alvos de teste
+são executados dentro dos containers, em `/workspace/testes/testes-chen/containers`.
+
 Objetivo: comparar throughput, CPU e memória entre XDP e iptables, variando
 o número de regras (Figura 6).
 

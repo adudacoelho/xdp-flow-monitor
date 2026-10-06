@@ -1,17 +1,19 @@
 # IV-A — Ambiente experimental
 
-Preparação do servidor: [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
+A preparação está em [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
 
-- [Preparar a VM Ubuntu 22.04 ou 26.04](PREPARANDOVM.md)
+O laboratório usa Docker e Containerlab diretamente no servidor srv01 com
+Ubuntu Server 24.04. Os containers Ubuntu 22.04 `generator` e `target` estão
+ligados por `lab0` e compartilham o kernel e os recursos do servidor.
+O monitor é anexado à `lab0` dentro de `target`.
 
-O laboratório usa Containerlab dentro de uma VM, com os containers `generator`
-e `target` ligados por `lab0`. Os containers compartilham o kernel e os recursos
-da VM. O artigo usa seis máquinas, Kubernetes e DeathStarBench: este ambiente
-é uma reprodução adaptada.
+O artigo usa seis máquinas, Kubernetes e DeathStarBench: este ambiente é uma
+reprodução adaptada. Registre sistema e kernel do servidor, recursos, versão
+do código, imagem dos containers e carga utilizada.
 
-Registre versão do Ubuntu e kernel, recursos da VM, versão do código, imagem
-dos containers e carga utilizada. Mantenha o mesmo protocolo entre versões.
+CPU e memória coletadas por `mpstat` e `sar` refletem o servidor compartilhado,
+não somente o container da vítima. Registre também outros serviços em execução.
 
-CPU e memória coletadas por `mpstat` e `sar` refletem a VM compartilhada, não
-somente o container da vítima. As etapas detalhadas de cada teste serão revisadas
-individualmente antes da execução.
+Os procedimentos e pendências de cada experimento ficam nos arquivos
+[4B](4B-coleta-ebpf.md), [4C](4C-filtragem-xdp.md),
+[4D](4D-classificacao.md) e [4E](4E-sistema-completo.md).

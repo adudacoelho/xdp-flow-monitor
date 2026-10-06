@@ -5,7 +5,7 @@ topology:
     image: chen-lab:local
     network-mode: none
     binds:
-      - /etc/xdp-chen-lab:/etc/xdp-chen-vm:ro
+      - /etc/xdp-chen-lab:/etc/xdp-chen-host:ro
       - ${CHEN_ROOT}/dataset:/workspace/dataset:ro
   nodes:
     generator:

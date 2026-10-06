@@ -1,5 +1,8 @@
 # IV-D — Classificação
 
+Preparação: [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md). Os alvos de teste
+são executados dentro dos containers, em `/workspace/testes/testes-chen/containers`.
+
 Objetivo: comparar acurácia, precisão, recall, F1 e taxas de detecção de normais
 e ataques (Figura 7).
 

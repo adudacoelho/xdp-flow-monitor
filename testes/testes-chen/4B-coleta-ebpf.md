@@ -1,7 +1,10 @@
 # IV-B — Coleta eBPF
 
 Roteiro preliminar migrado do documento geral; validar no servidor antes da série.
-Os comandos são executados nos containers, após preparar a VM correspondente.
+Prepare o ambiente seguindo [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
+Execute os comandos abaixo nos containers, na pasta
+`/workspace/testes/testes-chen/containers`, aberta por `make clab-shell NODE=target`
+ou `make clab-shell NODE=generator` no servidor.
 
 
 
