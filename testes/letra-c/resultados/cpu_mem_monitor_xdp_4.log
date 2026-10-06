@@ -1,0 +1,367 @@
+Linux 6.8.0-136-generic (eduarda-VirtualBox) 	05/10/2026 	_x86_64_	(1 CPU)
+
+22:25:44      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:45        0      8833    4,00    2,00    0,00   20,00    6,00     0  flow_monitor
+
+22:25:44      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:45        0      8833    284,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:45      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:46        0      8833    4,95    0,99    0,00   13,86    5,94     0  flow_monitor
+
+22:25:45      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:46        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:46      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:47        0      8833    4,00    2,00    0,00   16,00    6,00     0  flow_monitor
+
+22:25:46      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:47        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:47      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:48        0      8833    2,97    0,99    0,00   13,86    3,96     0  flow_monitor
+
+22:25:47      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:48        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:48      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:49        0      8833    2,97    0,99    0,00   11,88    3,96     0  flow_monitor
+
+22:25:48      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:49        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:49      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:50        0      8833    3,96    0,99    0,00   16,83    4,95     0  flow_monitor
+
+22:25:49      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:50        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:50      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:51        0      8833    3,00    1,00    0,00   12,00    4,00     0  flow_monitor
+
+22:25:50      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:51        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:51      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:52        0      8833    3,96    0,99    0,00   15,84    4,95     0  flow_monitor
+
+22:25:51      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:52        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:52      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:53        0      8833    3,00    1,00    0,00   12,00    4,00     0  flow_monitor
+
+22:25:52      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:53        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:53      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:54        0      8833    5,00    2,00    0,00   16,00    7,00     0  flow_monitor
+
+22:25:53      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:54        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:54      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:55        0      8833    4,00    1,00    0,00   13,00    5,00     0  flow_monitor
+
+22:25:54      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:55        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:55      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:56        0      8833    4,00    2,00    0,00   17,00    6,00     0  flow_monitor
+
+22:25:55      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:56        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:56      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:57        0      8833    3,96    0,99    0,00   10,89    4,95     0  flow_monitor
+
+22:25:56      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:57        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:57      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:58        0      8833    4,00    1,00    0,00   18,00    5,00     0  flow_monitor
+
+22:25:57      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:58        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:58      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:25:59        0      8833    3,00    1,00    0,00   12,00    4,00     0  flow_monitor
+
+22:25:58      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:25:59        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:25:59      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:00        0      8833    5,94    1,98    0,00   18,81    7,92     0  flow_monitor
+
+22:25:59      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:00        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:00      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:01        0      8833    2,97    0,99    0,00   12,87    3,96     0  flow_monitor
+
+22:26:00      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:01        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:01      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:02        0      8833    5,00    2,00    0,00   17,00    7,00     0  flow_monitor
+
+22:26:01      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:02        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:02      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:03        0      8833    3,00    1,00    0,00   13,00    4,00     0  flow_monitor
+
+22:26:02      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:03        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:03      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:04        0      8833    5,00    2,00    0,00   16,00    7,00     0  flow_monitor
+
+22:26:03      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:04        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:04      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:05        0      8833    2,97    0,99    0,00   12,87    3,96     0  flow_monitor
+
+22:26:04      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:05        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:05      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:06        0      8833    4,00    1,00    0,00   17,00    5,00     0  flow_monitor
+
+22:26:05      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:06        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:06      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:07        0      8833    2,97    0,99    0,00   10,89    3,96     0  flow_monitor
+
+22:26:06      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:07        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:07      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:08        0      8833    5,00    2,00    0,00   18,00    7,00     0  flow_monitor
+
+22:26:07      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:08        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:08      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:09        0      8833    2,97    0,99    0,00   10,89    3,96     0  flow_monitor
+
+22:26:08      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:09        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:09      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:10        0      8833    5,00    1,00    0,00   15,00    6,00     0  flow_monitor
+
+22:26:09      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:10        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:10      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:11        0      8833    4,00    2,00    0,00   14,00    6,00     0  flow_monitor
+
+22:26:10      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:11        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:11      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:12        0      8833    3,00    1,00    0,00   13,00    4,00     0  flow_monitor
+
+22:26:11      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:12        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:12      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:13        0      8833    3,96    0,99    0,00   16,83    4,95     0  flow_monitor
+
+22:26:12      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:13        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:13      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:14        0      8833    4,00    0,00    0,00   12,00    4,00     0  flow_monitor
+
+22:26:13      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:14        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:14      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:15        0      8833    5,94    0,00    0,00   17,82    5,94     0  flow_monitor
+
+22:26:14      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:15        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:15      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:16        0      8833    4,00    0,00    0,00   12,00    4,00     0  flow_monitor
+
+22:26:15      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:16        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:16      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:17        0      8833    6,93    0,00    0,00   19,80    6,93     0  flow_monitor
+
+22:26:16      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:17        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:17      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:18        0      8833    2,97    0,00    0,00   10,89    2,97     0  flow_monitor
+
+22:26:17      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:18        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:18      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:19        0      8833    5,94    0,00    0,00   12,87    5,94     0  flow_monitor
+
+22:26:18      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:19        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:19      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:20        0      8833    6,00    0,00    0,00   17,00    6,00     0  flow_monitor
+
+22:26:19      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:20        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:20      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:21        0      8833    3,96    0,00    0,00   10,89    3,96     0  flow_monitor
+
+22:26:20      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:21        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:21      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:22        0      8833    7,00    0,00    0,00   18,00    7,00     0  flow_monitor
+
+22:26:21      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:22        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:22      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:23        0      8833    3,96    0,00    0,00   11,88    3,96     0  flow_monitor
+
+22:26:22      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:23        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:23      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:24        0      8833    7,00    0,00    0,00   17,00    7,00     0  flow_monitor
+
+22:26:23      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:24        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:24      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:25        0      8833    6,00    0,00    0,00   16,00    6,00     0  flow_monitor
+
+22:26:24      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:25        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:25      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:26        0      8833    5,00    0,00    0,00   11,00    5,00     0  flow_monitor
+
+22:26:25      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:26        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:26      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:27        0      8833    5,94    0,00    0,00   16,83    5,94     0  flow_monitor
+
+22:26:26      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:27        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:27      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:28        0      8833    3,00    0,00    0,00   12,00    3,00     0  flow_monitor
+
+22:26:27      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:28        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:28      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:29        0      8833    7,92    0,00    0,00   16,83    7,92     0  flow_monitor
+
+22:26:28      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:29        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:29      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:30        0      8833    3,00    0,00    0,00   12,00    3,00     0  flow_monitor
+
+22:26:29      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:30        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:30      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:31        0      8833    7,00    0,00    0,00   19,00    7,00     0  flow_monitor
+
+22:26:30      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:31        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:31      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:32        0      8833    3,00    0,00    0,00   12,00    3,00     0  flow_monitor
+
+22:26:31      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:32        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:32      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:33        0      8833    5,94    0,00    0,00   16,83    5,94     0  flow_monitor
+
+22:26:32      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:33        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:33      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:34        0      8833    5,00    0,00    0,00   13,00    5,00     0  flow_monitor
+
+22:26:33      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:34        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:34      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:35        0      8833    5,00    0,00    0,00   17,00    5,00     0  flow_monitor
+
+22:26:34      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:35        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:35      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:36        0      8833    4,00    0,00    0,00   13,00    4,00     0  flow_monitor
+
+22:26:35      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:36        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:36      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:37        0      8833    6,00    0,00    0,00   15,00    6,00     0  flow_monitor
+
+22:26:36      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:37        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:37      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:38        0      8833    6,00    0,00    0,00   16,00    6,00     0  flow_monitor
+
+22:26:37      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:38        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:38      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:39        0      8833    2,97    0,99    0,00   12,87    3,96     0  flow_monitor
+
+22:26:38      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:39        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:39      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:40        0      8833    5,00    1,00    0,00   18,00    6,00     0  flow_monitor
+
+22:26:39      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:40        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:40      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:41        0      8833    2,97    0,99    0,00   10,89    3,96     0  flow_monitor
+
+22:26:40      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:41        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:41      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:42        0      8833    4,00    1,00    0,00   18,00    5,00     0  flow_monitor
+
+22:26:41      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:42        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:42      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:43        0      8833    3,00    1,00    0,00   13,00    4,00     0  flow_monitor
+
+22:26:42      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:43        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+22:26:43      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+22:26:44        0      8833    3,96    0,99    0,00   10,89    4,95     0  flow_monitor
+
+22:26:43      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+22:26:44        0      8833      0,00      0,00    4504    3456   0,09  flow_monitor
+
+Média:       UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+Média:         0      8833    4,42    0,73    0,00   14,59    5,15     -  flow_monitor
+
+Média:       UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+Média:         0      8833      4,71      0,00    4504    3456   0,09  flow_monitor

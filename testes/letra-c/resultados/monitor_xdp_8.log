@@ -1,0 +1,245 @@
+Monitoramento iniciado na interface vethb7b3b04 (ifindex 9).
+Aguardando ml_daemon.py em /tmp/ml_engine.sock...
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 257231.85
+Flow Bytes/s     : 387478281.53
+Packet Len Mean  : 1506.34 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:2 ACK:1286160 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 260796.36
+Flow Bytes/s     : 392850950.87
+Packet Len Mean  : 1506.35 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:1303985 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 382834.64
+Flow Bytes/s     : 576630758.04
+Packet Len Mean  : 1506.21 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:1914194 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 415463.03
+Flow Bytes/s     : 625762591.38
+Packet Len Mean  : 1506.18 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2077316 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 412729.35
+Flow Bytes/s     : 621641619.06
+Packet Len Mean  : 1506.17 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2063662 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 410083.36
+Flow Bytes/s     : 618367878.10
+Packet Len Mean  : 1507.91 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2050418 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 405798.60
+Flow Bytes/s     : 611909079.43
+Packet Len Mean  : 1507.91 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2028993 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 416813.79
+Flow Bytes/s     : 628507314.25
+Packet Len Mean  : 1507.89 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2084072 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 412559.98
+Flow Bytes/s     : 622102080.27
+Packet Len Mean  : 1507.91 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2062800 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 413809.26
+Flow Bytes/s     : 623976470.10
+Packet Len Mean  : 1507.88 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2069127 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 414233.01
+Flow Bytes/s     : 624630557.97
+Packet Len Mean  : 1507.92 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2071181 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 407860.08
+Flow Bytes/s     : 615016862.23
+Packet Len Mean  : 1507.91 bytes
+Min Packet Len   : 66 bytes
+TCP Flags        : SYN:0 ACK:2039303 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 24609.99
+Flow Bytes/s     : 11421425.06
+Packet Len Mean  : 464.10 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:88332 ACK:34718 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 120159.50
+Flow Bytes/s     : 6488613.27
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:612600 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 253995.05
+Flow Bytes/s     : 13715732.47
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:1298479 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 381196.37
+Flow Bytes/s     : 20584603.97
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:1958931 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 515667.93
+Flow Bytes/s     : 27846068.08
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:2578344 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 601454.87
+Flow Bytes/s     : 32478562.85
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3045131 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 748069.85
+Flow Bytes/s     : 40395771.67
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:3889483 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 859942.70
+Flow Bytes/s     : 46436905.77
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:4549935 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 952346.55
+Flow Bytes/s     : 51426713.72
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:4786140 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 1102590.14
+Flow Bytes/s     : 59539867.54
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:5820035 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 1185157.49
+Flow Bytes/s     : 63998504.46
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:5958540 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+====================================================
+Janela fechada — src: 172.20.20.6
+Flow Packets/s   : 1348638.72
+Flow Bytes/s     : 72826490.98
+Packet Len Mean  : 54.00 bytes
+Min Packet Len   : 54 bytes
+TCP Flags        : SYN:6743217 ACK:0 RST:0 URG:0 CWR:0
+[AVISO] ml_daemon.py não está rodando — sem classificação.
+====================================================
+
+
+Monitoramento encerrado.

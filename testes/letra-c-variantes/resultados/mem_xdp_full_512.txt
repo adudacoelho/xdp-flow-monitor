@@ -1,0 +1,6 @@
+               total       usada       livre    compart.  buff/cache  disponível
+Mem.:           3916        2166         428          28        1321        1720
+Swap:           2039         546        1493
+               total       usada       livre    compart.  buff/cache  disponível
+Mem.:           3916        2182         412          28        1321        1704
+Swap:           2039         546        1493
