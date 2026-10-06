@@ -6,8 +6,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iperf3 hping3 tcpreplay tshark tcpdump iptables ethtool sysstat snort \
     ca-certificates golang-go git util-linux && rm -rf /var/lib/apt/lists/*
 # Evita o wrapper Ubuntu que procura bpftool pela versão do kernel do host.
-RUN tool="$(find /usr/lib/linux-tools -type f -name bpftool | sort | tail -n 1)" && \
-    test -n "$tool" && cp "$tool" /usr/local/bin/bpftool
+# Busca também nos diretórios linux-tools-<versão>, fora de linux-tools/.
+RUN tool="$(find /usr/lib -path '/usr/lib/linux-tools*' -type f -name bpftool | sort | tail -n 1)" && \
+    { test -n "$tool" || { echo 'bpftool não encontrado nos pacotes linux-tools instalados' >&2; exit 1; }; } && \
+    cp "$tool" /usr/local/bin/bpftool
 WORKDIR /workspace
 RUN python3 -m venv /workspace/.venv && \
     /workspace/.venv/bin/pip install --no-cache-dir \
