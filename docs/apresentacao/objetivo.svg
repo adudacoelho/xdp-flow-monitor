@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<rect width="1600" height="900" fill="#101c30"/>
+<rect x="88" y="83" width="48" height="6" rx="3" fill="#41d6b3"/>
+<g font-family="Arial, sans-serif">
+<text x="154" y="93" fill="#aabbd1" font-size="22" letter-spacing="3">XDP FLOW MONITOR</text>
+<text x="88" y="191" fill="#ffffff" font-size="64" font-weight="700">Objetivo desta etapa</text>
+<text x="88" y="264" fill="#d6e2f1" font-size="32">Instalar o ambiente, testar as funcionalidades básicas</text>
+<text x="88" y="309" fill="#d6e2f1" font-size="32">e documentar o processo de forma reproduzível e didática no GitHub.</text>
+<rect x="88" y="386" width="456" height="282" rx="18" fill="#1b2c44"/>
+<rect x="572" y="386" width="456" height="282" rx="18" fill="#1b2c44"/>
+<rect x="1056" y="386" width="456" height="282" rx="18" fill="#1b2c44"/>
+<g fill="#41d6b3" font-size="25" font-weight="700"><text x="120" y="435">01</text><text x="604" y="435">02</text><text x="1088" y="435">03</text></g>
+<g fill="#ffffff" font-size="31" font-weight="700"><text x="120" y="492">Ambiente</text><text x="604" y="492">Testes básicos</text><text x="1088" y="492">Documentação</text></g>
+<g fill="#c3d1e3" font-size="25">
+<text x="120" y="545">Preparar o servidor e configurar</text><text x="120" y="583">o laboratório com Docker</text><text x="120" y="621">e Containerlab.</text>
+<text x="604" y="545">Verificar a comunicação, gerar</text><text x="604" y="583">tráfego e testar a coleta</text><text x="604" y="621">com XDP/eBPF.</text>
+<text x="1088" y="545">Registrar pré-requisitos,</text><text x="1088" y="583">comandos, resultados e</text><text x="1088" y="621">soluções no GitHub.</text>
+</g>
+<rect x="88" y="716" width="1424" height="104" rx="16" fill="#163a40"/>
+<text x="120" y="757" fill="#70e5cb" font-size="23" font-weight="700">EXPLICAR TAMBÉM OS CONCEITOS ENVOLVIDOS</text>
+<text x="120" y="797" fill="#e0f5f0" font-size="25">XDP • eBPF • containers • interfaces de rede • kernel e userspace</text>
+</g></svg>
