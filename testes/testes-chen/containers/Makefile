@@ -85,8 +85,10 @@ serve: check
 	iperf) command=(iperf3 -s -B 192.168.157.20 -p 80 -J);;
 	ethr) command=(ethr -s -ip 192.168.157.20 -port 80 -o "$$out/ethr.json");;
 	*) echo 'SERVICE=iperf ou ethr' >&2; exit 1;; esac
-	rc=0; timeout --signal=TERM --kill-after=5 "$$DURATION" "$${command[@]}" > "$$out/server.log" 2>&1 || rc=$$?
-	if [[ $$rc != 0 && $$rc != 124 ]] || grep -Eqi 'Fatal error|unable to start listener' "$$out/server.log"; then
+	# Preserva o grupo de primeiro plano para o serviço receber Ctrl+C do terminal.
+	echo "Iniciando $$SERVICE por até $$DURATION s. Ctrl+C encerra o serviço. Log: $$out/server.log"
+	rc=0; timeout --foreground --signal=TERM --kill-after=5 "$$DURATION" "$${command[@]}" > "$$out/server.log" 2>&1 || rc=$$?
+	if [[ $$rc != 0 && $$rc != 124 && $$rc != 130 ]] || grep -Eqi 'Fatal error|unable to start listener' "$$out/server.log"; then
 		cat "$$out/server.log" >&2
 		exit 1
 	fi
