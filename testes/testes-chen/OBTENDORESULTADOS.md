@@ -67,6 +67,12 @@ cd /CAMINHO/DO/PROJETO/testes/testes-chen
 make get-results
 ```
 
+O comando mostra o progresso geral da transferência, incluindo bytes, percentual
+e velocidade. Aguarde a mensagem `Transferência concluída com sucesso.` e o
+retorno do prompt. Arquivos parciais são preservados se a cópia for interrompida;
+execute o mesmo comando novamente para completar a transferência antes de analisar
+os resultados. Não inicie duas cópias simultâneas para a mesma pasta.
+
 O comando copia `results-servidor/` do servidor para a mesma pasta relativa no
 PC, preservando as subpastas `generator/` e `target/`. Não remove arquivos
 exclusivamente locais, mas pode atualizar arquivos de mesmo nome.

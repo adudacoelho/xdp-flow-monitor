@@ -124,4 +124,6 @@ get-results:
 	if [ -z "$$SERVER" ] || [[ "$$SERVER" == -* ]] || [[ "$$SERVER" == *[[:space:]]* ]]; then echo 'Informe SERVER=usuario@servidor.' >&2; exit 1; fi
 	if [[ "$$SERVER_REPO" != /* ]]; then echo 'Informe SERVER_REPO com o caminho absoluto do projeto no servidor.' >&2; exit 1; fi
 	mkdir -p "$$CHEN_RESULTS"
-	rsync -azs --exclude=.gitkeep "$$SERVER:$$SERVER_REPO/testes/testes-chen/results-servidor/" "$$CHEN_RESULTS/"
+	echo "Copiando resultados de $$SERVER para $$CHEN_RESULTS..."
+	rsync -azs --info=progress2 --partial --exclude=.gitkeep "$$SERVER:$$SERVER_REPO/testes/testes-chen/results-servidor/" "$$CHEN_RESULTS/"
+	echo 'Transferência concluída com sucesso.'
