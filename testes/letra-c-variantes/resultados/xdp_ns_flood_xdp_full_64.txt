@@ -1,0 +1,1 @@
+ns_por_pacote=1134,5 pacotes=9243262
