@@ -1,0 +1,17 @@
+.git
+.lab
+.venv
+build
+results
+dataset
+**/dataset
+**/__pycache__
+lab/clab-*
+
+# Dados e arquivos locais do laboratório.
+**/.lab
+**/results
+**/build
+**/.venv
+
+**/results-servidor

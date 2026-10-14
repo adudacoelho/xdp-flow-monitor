@@ -1,0 +1,8 @@
+.lab/
+**/results/*
+!**/results/.gitkeep
+build/
+.venv/
+__pycache__/
+lab/clab-*/
+testes/testes-chen/results-servidor/
