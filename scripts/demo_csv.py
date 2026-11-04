@@ -123,7 +123,7 @@ def main():
             print('RESULTADO: ' + ('ACERTO' if predicted == expected else 'ERRO'))
             print(f'ACERTOS: {correct} | ERROS: {index - correct}\n')
             print('DECISAO: ' + ('SOLICITARIA BLOQUEIO' if predicted else 'NAO SOLICITARIA BLOQUEIO'))
-            print('SIMULACAO OFFLINE: nenhum IP bloqueado.\n')
+            print()
             print('Dados podem ter sido usados no treino.')
             print('Escala original do CSV; nao valida coleta ao vivo.')
             if interactive:
