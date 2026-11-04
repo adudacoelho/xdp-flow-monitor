@@ -10,9 +10,17 @@ RUN ?= demo-r1
 DURATION ?= 180
 PPS ?= 600
 export RUN DURATION PPS
+CSV ?= $(PROJECT_ROOT)/xdp-flow-monitor-main/dataset/synthetic_ddos.csv
+MODEL ?= $(PROJECT_ROOT)/xdp-flow-monitor-main/ddos_model.ubj
+SAMPLES ?= 10
+CSV_PYTHON ?= $(if $(wildcard $(PROJECT_ROOT)/.venv/bin/python),$(PROJECT_ROOT)/.venv/bin/python,python3)
+export CSV MODEL SAMPLES CSV_PYTHON
 
 .PHONY: help demo-check demo-ping demo-server demo-monitor demo-traffic demo-log
 help:
+	@echo 'demo-csv-check — conferir CSV e modelo offline'
+	echo 'demo-csv       — apresentar uma amostra por Enter (um terminal)'
+	echo 'demo-csv-docker — mesma demo usando a imagem chen-lab:local'
 	@echo 'demo-check   — conferir laboratório e compilar'
 	echo 'demo-detector — iniciar monitor + XGBoost (180 s)'
 	echo 'demo-screen   — painel para o projetor'
@@ -68,3 +76,13 @@ demo-attack:
 	@[[ "$$RUN" =~ ^[a-zA-Z0-9_-]+$$ ]]
 	echo 'CARGA SIMULADA NO LABORATORIO — origens .101 a .106'
 	sudo docker exec -it clab-chen-generator make -C /workspace/testes/testes-chen/containers traffic KIND=syn DURATION=20 PPS="$$PPS" RUN="$$RUN"
+
+.PHONY: demo-csv demo-csv-check demo-csv-docker
+demo-csv-check:
+	@"$$CSV_PYTHON" "$(PROJECT_ROOT)/scripts/demo_csv.py" --csv "$$CSV" --model "$$MODEL" --samples "$$SAMPLES" --check
+
+demo-csv:
+	@"$$CSV_PYTHON" "$(PROJECT_ROOT)/scripts/demo_csv.py" --csv "$$CSV" --model "$$MODEL" --samples "$$SAMPLES"
+
+demo-csv-docker:
+	@sudo docker run --rm -it --network none --read-only --cap-drop ALL --security-opt no-new-privileges -e PYTHONDONTWRITEBYTECODE=1 -e OMP_NUM_THREADS=1 -v "$(PROJECT_ROOT):/demo:ro" -w /demo chen-lab:local /workspace/.venv/bin/python /demo/scripts/demo_csv.py --csv /demo/xdp-flow-monitor-main/dataset/synthetic_ddos.csv --model /demo/xdp-flow-monitor-main/ddos_model.ubj --samples "$$SAMPLES"
