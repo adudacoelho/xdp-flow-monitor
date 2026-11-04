@@ -25,4 +25,8 @@ typedef struct {
 // Retorna 0 enquanto a janela ainda está aberta.
 int window_update(const struct flow_metrics *m, FlowFeatures *out);
 
+// Retorna uma janela vencida por chamada.
+// Com flush=1, também retorna janelas parciais.
+int window_next(uint64_t now_ns, int flush, FlowFeatures *out);
+
 #endif

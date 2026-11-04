@@ -11,6 +11,7 @@
 #include <sys/un.h>
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
+#include <time.h>
 #include "common.h"
 #include "window.h"
 #include "flow_monitor.skel.h"
@@ -90,43 +91,65 @@ static int query_ml(const FlowFeatures *f) {
     return strstr(resp, "\"attack\": true") != NULL;
 
 }
+static uint64_t monotonic_ns(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
 
-static int handle_event(void *ctx, void *data, size_t data_sz) {
-    const struct flow_metrics *m = data;
+    return (uint64_t)ts.tv_sec * 1000000000ULL + ts.tv_nsec;
+}
 
-
-    // Tenta fechar a janela de agregação
-    FlowFeatures features;
-    if (window_update(m, &features) == 0)
-        return 0; // janela ainda aberta
-
-    // Imprime as features da janela (igual ao comportamento original)
+static void process_features(const FlowFeatures *features) {
     char src_ip_str[INET_ADDRSTRLEN];
-    char dst_ip_str[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET, &m->src_ip, src_ip_str, sizeof(src_ip_str));
-    inet_ntop(AF_INET, &m->dst_ip, dst_ip_str, sizeof(dst_ip_str));
+
+    inet_ntop(AF_INET, &features->src_ip,
+              src_ip_str, sizeof(src_ip_str));
 
     printf("====================================================\n");
     printf("Janela fechada — src: %s\n", src_ip_str);
-    printf("Flow Packets/s   : %.2f\n", features.flow_pkts_per_sec);
-    printf("Flow Bytes/s     : %.2f\n", features.flow_bytes_per_sec);
-    printf("Packet Len Mean  : %.2f bytes\n", features.mean_pkt_len);
-    printf("Min Packet Len   : %u bytes\n", features.min_pkt_len);
+    printf("Flow Packets/s   : %.2f\n", features->flow_pkts_per_sec);
+    printf("Flow Bytes/s     : %.2f\n", features->flow_bytes_per_sec);
+    printf("Packet Len Mean  : %.2f bytes\n", features->mean_pkt_len);
+    printf("Min Packet Len   : %u bytes\n", features->min_pkt_len);
     printf("TCP Flags        : SYN:%u ACK:%u RST:%u URG:%u CWR:%u\n",
-           features.syn_count, features.ack_count, features.rst_count,
-           features.urg_count, features.cwr_count);
+           features->syn_count, features->ack_count,
+           features->rst_count, features->urg_count,
+           features->cwr_count);
 
-    // Consulta o daemon ML
-    int is_attack = query_ml(&features);
+    int is_attack = query_ml(features);
+
     if (is_attack < 0) {
         printf("[AVISO] ml_daemon.py não está rodando — sem classificação.\n");
     } else if (is_attack) {
         printf("[ATAQUE DETECTADO] Bloqueando IP...\n");
-        update_blacklist(features.src_ip);
+        update_blacklist(features->src_ip);
     } else {
         printf("[Normal]\n");
     }
+
     printf("====================================================\n\n");
+    fflush(stdout);
+}
+
+static void process_pending_windows(int flush) {
+    FlowFeatures features;
+    uint64_t now_ns = monotonic_ns();
+
+    while (window_next(now_ns, flush, &features))
+        process_features(&features);
+}
+
+static int handle_event(void *ctx, void *data, size_t data_sz) {
+    (void)ctx;
+
+    if (data_sz != sizeof(struct flow_metrics)) {
+        fprintf(stderr, "[ERRO] Evento recebido com tamanho inesperado.\n");
+        return 0;
+    }
+
+    FlowFeatures features;
+
+    if (window_update(data, &features))
+        process_features(&features);
 
     return 0;
 }
@@ -190,16 +213,44 @@ int main(int argc, char **argv) {
 
     while (!exiting) {
         err = ring_buffer__poll(rb, 100);
-        if (err == -EINTR) { err = 0; break; }
+
+        if (err == -EINTR) {
+            err = 0;
+            break;
+        }
+
         if (err < 0) {
             printf("Erro no polling do ring buffer: %d\n", err);
             break;
         }
+
+        // Verifica os prazos mesmo sem receber pacotes.
+        process_pending_windows(0);
     }
 
 cleanup:
+    // Para a entrada de eventos antes de consumir os restantes.
+    bpf_link__destroy(skel->links.network_flow_monitor);
+    skel->links.network_flow_monitor = NULL;
+
+    if (rb) {
+        int drain_err = ring_buffer__consume(rb);
+
+        if (drain_err < 0) {
+            fprintf(stderr,
+                    "Erro ao consumir eventos finais: %d\n", drain_err);
+
+            if (err >= 0)
+                err = drain_err;
+        }
+
+        // Exporta também as janelas que ainda não completaram 5 s.
+        process_pending_windows(1);
+    }
+
     ring_buffer__free(rb);
     flow_monitor_bpf__destroy(skel);
+
     printf("\nMonitoramento encerrado.\n");
     return err < 0 ? -err : 0;
 }
