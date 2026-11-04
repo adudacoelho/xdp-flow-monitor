@@ -124,7 +124,6 @@ def main():
             print(f'ACERTOS: {correct} | ERROS: {index - correct}\n')
             print('DECISAO: ' + ('SOLICITARIA BLOQUEIO' if predicted else 'NAO SOLICITARIA BLOQUEIO'))
             print()
-            print('Dados podem ter sido usados no treino.')
             print('Escala original do CSV; nao valida coleta ao vivo.')
             if interactive:
                 input('\nEnter para continuar; Ctrl+C para sair...')
