@@ -63,7 +63,7 @@ def main():
     parser.add_argument('--model', type=Path, required=True)
     parser.add_argument('--samples', type=int, default=10)
     parser.add_argument('--check', action='store_true')
-    parser.add_argument('--batch', action='store_true', help='Sem pausas ou limpeza de tela')
+    parser.add_argument('--batch', action='store_true', help='Executar sem pausas')
     args = parser.parse_args()
     if args.samples < 1:
         parser.error('--samples deve ser positivo')
@@ -113,8 +113,7 @@ def main():
             line, values, label, expected = row
             predicted = bool(probability > 0.5)
             correct += predicted == expected
-            if interactive:
-                print('\033[2J\033[H', end='')
+            print('\n' + '=' * 60)
             print('XGBOOST | DEMONSTRACAO OFFLINE\n')
             print(f'AMOSTRA {index}/{len(selected)} | LINHA {line} DO CSV\n')
             print(f'VOLUME: {values[1]:,.1f} pacotes/s\n')
