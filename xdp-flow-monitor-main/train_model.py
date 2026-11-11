@@ -1,103 +1,54 @@
 #!/usr/bin/env python3
 """
-train_model.py — Treina o XGBoost no dataset CIC-DDoS2019.
+train_model.py — Treina o XGBoost e salva ddos_model.ubj (usado pelo ml_daemon.py).
 
-Baixe o dataset em: https://www.unb.ca/cic/datasets/ddos-2019.html
-Coloque os CSVs na pasta ./dataset/ e rode:
-    python3 train_model.py
+Uso:
+    python3 train_model.py                         # lê ./dataset/*.csv
+    python3 train_model.py --data dataset/Syn.csv  # CIC-DDoS2019 real
+    python3 train_model.py --duration-unit us      # padrão (CIC usa microssegundos)
 """
 
-import os
-import glob
+import argparse
 import pandas as pd
-import numpy as np
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 
-# Features da Tabela I do artigo (Chen et al., 2024)
-FEATURES = [
-    "Flow Duration",
-    "Flow Packets/s",
-    "Flow Bytes/s",
-    "ACK Flag Count",
-    "SYN Flag Count",
-    "RST Flag Count",
-    "URG Flag Count",
-    "CWR Flag Count",
-    "Packet Length Mean",
-    "Min Packet Length",
-]
+from features import load_dataset, prepare, FEATURE_ORDER
 
-# Mapeamento para os nomes usados no ml_daemon.py
-RENAME = {
-    "Flow Duration":       "duration_sec",
-    "Flow Packets/s":      "flow_pkts_per_sec",
-    "Flow Bytes/s":        "flow_bytes_per_sec",
-    "ACK Flag Count":      "ack_count",
-    "SYN Flag Count":      "syn_count",
-    "RST Flag Count":      "rst_count",
-    "URG Flag Count":      "urg_count",
-    "CWR Flag Count":      "cwr_count",
-    "Packet Length Mean":  "mean_pkt_len",
-    "Min Packet Length":   "min_pkt_len",
-}
-
-def load_dataset(path="./dataset/"):
-    csvs = glob.glob(os.path.join(path, "*.csv"))
-    if not csvs:
-        print(f"[ERRO] Nenhum CSV encontrado em {path}")
-        exit(1)
-
-    print(f"[INFO] Carregando {len(csvs)} arquivo(s)...")
-    dfs = []
-    for f in csvs:
-        df = pd.read_csv(f, low_memory=False)
-        df.columns = df.columns.str.strip()
-        dfs.append(df)
-    return pd.concat(dfs, ignore_index=True)
 
 def main():
-    df = load_dataset()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default="./dataset/")
+    ap.add_argument("--duration-unit", choices=["us", "ms", "s"], default="us",
+                    help="unidade de 'Flow Duration' no CSV (CIC = us)")
+    ap.add_argument("--out", default="ddos_model.ubj")
+    args = ap.parse_args()
 
-    # Verifica se as colunas necessárias existem
-    missing = [c for c in FEATURES + ["Label"] if c not in df.columns]
-    if missing:
-        print(f"[ERRO] Colunas não encontradas: {missing}")
-        print(f"[INFO] Colunas disponíveis: {list(df.columns)}")
-        exit(1)
-
-    # Label: 0 = normal, 1 = ataque
-    df["label"] = (df["Label"].str.strip().str.upper() != "BENIGN").astype(int)
-    print(f"[INFO] Normal: {(df['label']==0).sum()} | Ataque: {(df['label']==1).sum()}")
-
-    X = df[FEATURES].copy()
-    X = X.replace([np.inf, -np.inf], 0).fillna(0)
-    X = X.rename(columns=RENAME)
-    y = df["label"]
+    X, y = prepare(load_dataset(args.data), args.duration_unit)
+    print(f"[INFO] Normal: {(y == 0).sum()} | Ataque: {(y == 1).sum()}")
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
+        X, y, test_size=0.2, random_state=42, stratify=y)
 
     print("[INFO] Treinando XGBoost...")
     model = xgb.XGBClassifier(
-        n_estimators=100,
-        max_depth=6,
-        learning_rate=0.1,
-        use_label_encoder=False,
-        eval_metric="logloss",
-        n_jobs=-1,
-    )
+        n_estimators=100, max_depth=6, learning_rate=0.1,
+        eval_metric="logloss", n_jobs=-1)
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    print(f"\n[RESULTADO] Acurácia: {acc:.4f} ({acc*100:.1f}%)")
+    print(f"\n[RESULTADO] Acurácia: {acc:.4f} ({acc * 100:.1f}%)")
     print(classification_report(y_test, y_pred, target_names=["Normal", "Ataque"]))
 
-    model.get_booster().save_model("ddos_model.ubj")
-    print("[OK] Modelo salvo em ddos_model.ubj")
+    imp = pd.Series(model.get_booster().get_score(importance_type="gain"))
+    print("[INFO] Importância das features (gain):")
+    print(imp.reindex(FEATURE_ORDER).fillna(0).sort_values(ascending=False).round(1).to_string())
+
+    model.get_booster().save_model(args.out)
+    print(f"\n[OK] Modelo salvo em {args.out}")
+
 
 if __name__ == "__main__":
     main()
