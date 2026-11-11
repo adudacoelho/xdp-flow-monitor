@@ -6,3 +6,4 @@ build/
 __pycache__/
 lab/clab-*/
 testes/testes-chen/results-servidor/
+testes/letra-b/resultados/tcpdump_capture.pcap

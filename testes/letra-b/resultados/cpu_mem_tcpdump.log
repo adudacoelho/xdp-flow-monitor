@@ -1,0 +1,727 @@
+Linux 6.8.0-136-generic (eduarda-VirtualBox) 	04/08/2026 	_x86_64_	(1 CPU)
+
+16:24:16      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:17      109     30589    0,99    1,98    0,00    4,95    2,97     0  tcpdump
+
+16:24:16      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:17      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:17      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:18      109     30589    1,98    1,98    0,00    6,93    3,96     0  tcpdump
+
+16:24:17      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:18      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:18      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:19      109     30589    0,99    1,98    0,00    6,93    2,97     0  tcpdump
+
+16:24:18      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:19      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:19      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:20      109     30589    0,99    1,98    0,00    3,96    2,97     0  tcpdump
+
+16:24:19      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:20      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:20      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:21      109     30589    0,00    2,94    0,00    3,92    2,94     0  tcpdump
+
+16:24:20      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:21      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:21      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:22      109     30589    1,98    1,98    0,00    9,90    3,96     0  tcpdump
+
+16:24:21      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:22      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:22      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:23      109     30589    1,00    2,00    0,00    6,00    3,00     0  tcpdump
+
+16:24:22      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:23      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:23      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:24      109     30589    0,99    1,98    0,00    3,96    2,97     0  tcpdump
+
+16:24:23      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:24      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:24      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:25      109     30589    2,94    0,00    0,00    5,88    2,94     0  tcpdump
+
+16:24:24      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:25      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:25      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:26      109     30589    1,98    1,98    0,00    8,91    3,96     0  tcpdump
+
+16:24:25      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:26      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:26      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:27      109     30589    0,00    2,00    0,00    5,00    2,00     0  tcpdump
+
+16:24:26      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:27      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:27      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:28      109     30589    1,96    0,98    0,00    9,80    2,94     0  tcpdump
+
+16:24:27      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:28      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:28      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:29      109     30589    0,99    2,97    0,00    7,92    3,96     0  tcpdump
+
+16:24:28      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:29      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:29      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:30      109     30589    1,00    3,00    0,00    5,00    4,00     0  tcpdump
+
+16:24:29      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:30      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:30      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:32      109     30589    1,96    0,98    0,00    4,90    2,94     0  tcpdump
+
+16:24:30      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:32      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:32      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:33      109     30589    1,00    3,00    0,00    9,00    4,00     0  tcpdump
+
+16:24:32      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:33      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:33      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:34      109     30589    1,98    0,99    0,00    6,93    2,97     0  tcpdump
+
+16:24:33      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:34      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:34      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:35      109     30589    0,99    2,97    0,00   10,89    3,96     0  tcpdump
+
+16:24:34      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:35      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:35      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:36      109     30589    0,00    1,98    0,00    6,93    1,98     0  tcpdump
+
+16:24:35      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:36      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:36      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:37      109     30589    0,00    3,00    0,00    9,00    3,00     0  tcpdump
+
+16:24:36      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:37      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:37      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:38      109     30589    1,98    0,99    0,00    4,95    2,97     0  tcpdump
+
+16:24:37      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:38      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:38      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:39      109     30589    0,99    1,98    0,00    6,93    2,97     0  tcpdump
+
+16:24:38      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:39      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:39      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:40      109     30589    2,00    2,00    0,00    7,00    4,00     0  tcpdump
+
+16:24:39      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:40      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:40      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:41      109     30589    1,98    1,98    0,00    5,94    3,96     0  tcpdump
+
+16:24:40      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:41      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:41      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:42      109     30589    0,99    0,99    0,00    5,94    1,98     0  tcpdump
+
+16:24:41      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:42      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:42      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:43      109     30589    0,99    1,98    0,00    5,94    2,97     0  tcpdump
+
+16:24:42      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:43      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:43      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:44      109     30589    0,99    2,97    0,00    5,94    3,96     0  tcpdump
+
+16:24:43      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:44      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:44      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:45      109     30589    0,98    1,96    0,00    9,80    2,94     0  tcpdump
+
+16:24:44      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:45      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:45      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:46      109     30589    0,99    1,98    0,00    6,93    2,97     0  tcpdump
+
+16:24:45      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:46      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:46      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:47      109     30589    0,00    5,00    0,00   11,00    5,00     0  tcpdump
+
+16:24:46      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:47      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:47      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:48      109     30589    0,00    4,95    0,00   10,89    4,95     0  tcpdump
+
+16:24:47      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:48      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:48      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:49      109     30589    0,99    2,97    0,00    8,91    3,96     0  tcpdump
+
+16:24:48      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:49      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:49      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:50      109     30589    2,00    3,00    0,00    5,00    5,00     0  tcpdump
+
+16:24:49      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:50      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:50      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:51      109     30589    0,99    2,97    0,00    6,93    3,96     0  tcpdump
+
+16:24:50      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:51      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:51      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:52      109     30589    1,98    3,96    0,00    6,93    5,94     0  tcpdump
+
+16:24:51      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:52      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:52      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:53      109     30589    0,00    4,95    0,00    8,91    4,95     0  tcpdump
+
+16:24:52      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:53      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:53      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:54      109     30589    0,00    4,00    0,00   11,00    4,00     0  tcpdump
+
+16:24:53      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:54      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:54      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:55      109     30589    0,99    3,96    0,00    8,91    4,95     0  tcpdump
+
+16:24:54      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:55      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:55      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:56      109     30589    1,98    2,97    0,00    9,90    4,95     0  tcpdump
+
+16:24:55      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:56      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:56      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:57      109     30589    0,99    3,96    0,00    4,95    4,95     0  tcpdump
+
+16:24:56      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:57      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:57      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:58      109     30589    1,00    4,00    0,00   12,00    5,00     0  tcpdump
+
+16:24:57      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:58      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:58      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:24:59      109     30589    0,00    3,96    0,00    5,94    3,96     0  tcpdump
+
+16:24:58      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:24:59      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:24:59      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:00      109     30589    1,00    4,00    0,00   17,00    5,00     0  tcpdump
+
+16:24:59      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:00      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:00      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:01      109     30589    0,00    2,97    0,00    5,94    2,97     0  tcpdump
+
+16:25:00      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:01      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:01      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:02      109     30589    0,00    3,96    0,00    9,90    3,96     0  tcpdump
+
+16:25:01      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:02      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:02      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:03      109     30589    0,99    4,95    0,00   11,88    5,94     0  tcpdump
+
+16:25:02      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:03      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:03      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:04      109     30589    0,99    3,96    0,00   11,88    4,95     0  tcpdump
+
+16:25:03      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:04      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:04      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:05      109     30589    0,00    3,96    0,00   10,89    3,96     0  tcpdump
+
+16:25:04      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:05      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:05      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:06      109     30589    0,97    3,88    0,00    9,71    4,85     0  tcpdump
+
+16:25:05      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:06      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:06      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:07      109     30589    0,99    3,96    0,00    5,94    4,95     0  tcpdump
+
+16:25:06      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:07      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:07      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:08      109     30589    0,99    2,97    0,00    9,90    3,96     0  tcpdump
+
+16:25:07      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:08      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:08      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:09      109     30589    0,99    4,95    0,00    9,90    5,94     0  tcpdump
+
+16:25:08      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:09      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:09      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:10      109     30589    0,99    2,97    0,00   15,84    3,96     0  tcpdump
+
+16:25:09      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:10      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:10      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:11      109     30589    0,98    3,92    0,00    5,88    4,90     0  tcpdump
+
+16:25:10      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:11      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:11      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:12      109     30589    0,00    3,96    0,00    9,90    3,96     0  tcpdump
+
+16:25:11      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:12      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:12      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:13      109     30589    1,00    5,00    0,00    8,00    6,00     0  tcpdump
+
+16:25:12      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:13      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:13      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:14      109     30589    0,99    2,97    0,00    6,93    3,96     0  tcpdump
+
+16:25:13      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:14      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:14      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:15      109     30589    1,98    2,97    0,00    8,91    4,95     0  tcpdump
+
+16:25:14      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:15      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:15      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:16      109     30589    0,99    3,96    0,00    5,94    4,95     0  tcpdump
+
+16:25:15      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:16      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:16      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:17      109     30589    2,00    4,00    0,00   10,00    6,00     0  tcpdump
+
+16:25:16      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:17      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:17      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:18      109     30589    0,99    3,96    0,00   10,89    4,95     0  tcpdump
+
+16:25:17      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:18      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:18      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:19      109     30589    0,00    4,00    0,00    9,00    4,00     0  tcpdump
+
+16:25:18      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:19      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:19      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:20      109     30589    0,99    3,96    0,00    9,90    4,95     0  tcpdump
+
+16:25:19      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:20      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:20      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:21      109     30589    0,00    4,00    0,00    9,00    4,00     0  tcpdump
+
+16:25:20      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:21      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:21      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:22      109     30589    1,98    2,97    0,00   10,89    4,95     0  tcpdump
+
+16:25:21      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:22      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:22      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:23      109     30589    0,99    3,96    0,00   10,89    4,95     0  tcpdump
+
+16:25:22      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:23      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:23      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:24      109     30589    3,00    2,00    0,00   11,00    5,00     0  tcpdump
+
+16:25:23      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:24      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:24      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:25      109     30589    0,99    2,97    0,00   10,89    3,96     0  tcpdump
+
+16:25:24      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:25      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:25      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:26      109     30589    1,00    4,00    0,00    9,00    5,00     0  tcpdump
+
+16:25:25      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:26      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:26      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:27      109     30589    1,96    2,94    0,00    7,84    4,90     0  tcpdump
+
+16:25:26      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:27      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:27      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:28      109     30589    0,99    3,96    0,00    6,93    4,95     0  tcpdump
+
+16:25:27      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:28      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:28      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:29      109     30589    2,00    3,00    0,00    6,00    5,00     0  tcpdump
+
+16:25:28      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:29      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:29      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:30      109     30589    0,00    3,96    0,00    9,90    3,96     0  tcpdump
+
+16:25:29      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:30      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:30      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:31      109     30589    0,99    3,96    0,00   10,89    4,95     0  tcpdump
+
+16:25:30      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:31      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:31      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:32      109     30589    0,99    3,96    0,00    7,92    4,95     0  tcpdump
+
+16:25:31      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:32      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:32      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:33      109     30589    2,00    3,00    0,00    7,00    5,00     0  tcpdump
+
+16:25:32      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:33      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:33      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:34      109     30589    0,98    3,92    0,00    6,86    4,90     0  tcpdump
+
+16:25:33      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:34      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:34      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:35      109     30589    1,98    2,97    0,00    6,93    4,95     0  tcpdump
+
+16:25:34      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:35      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:35      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:36      109     30589    1,00    3,00    0,00    8,00    4,00     0  tcpdump
+
+16:25:35      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:36      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:36      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:37      109     30589    0,99    3,96    0,00    7,92    4,95     0  tcpdump
+
+16:25:36      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:37      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:37      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:38      109     30589    1,00    4,00    0,00    9,00    5,00     0  tcpdump
+
+16:25:37      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:38      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:38      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:39      109     30589    0,99    3,96    0,00   10,89    4,95     0  tcpdump
+
+16:25:38      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:39      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:39      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:40      109     30589    1,98    2,97    0,00    6,93    4,95     0  tcpdump
+
+16:25:39      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:40      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:40      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:41      109     30589    0,00    3,96    0,00   10,89    3,96     0  tcpdump
+
+16:25:40      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:41      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:41      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:42      109     30589    2,94    1,96    0,00    8,82    4,90     0  tcpdump
+
+16:25:41      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:42      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:42      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:43      109     30589    0,99    3,96    0,00   10,89    4,95     0  tcpdump
+
+16:25:42      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:43      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:43      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:44      109     30589    1,96    2,94    0,00    8,82    4,90     0  tcpdump
+
+16:25:43      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:44      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:44      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:45      109     30589    0,98    3,92    0,00   15,69    4,90     0  tcpdump
+
+16:25:44      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:45      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:45      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:46      109     30589    1,00    4,00    0,00   10,00    5,00     0  tcpdump
+
+16:25:45      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:46      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:46      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:47      109     30589    2,97    0,99    0,00    5,94    3,96     0  tcpdump
+
+16:25:46      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:47      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:47      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:48      109     30589    2,00    2,00    0,00    7,00    4,00     0  tcpdump
+
+16:25:47      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:48      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:48      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:49      109     30589    2,94    1,96    0,00    7,84    4,90     0  tcpdump
+
+16:25:48      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:49      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:49      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:50      109     30589    0,99    2,97    0,00    5,94    3,96     0  tcpdump
+
+16:25:49      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:50      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:50      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:51      109     30589    0,99    4,95    0,00    7,92    5,94     0  tcpdump
+
+16:25:50      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:51      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:51      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:52      109     30589    1,98    2,97    0,00    9,90    4,95     0  tcpdump
+
+16:25:51      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:52      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:52      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:53      109     30589    0,00    3,96    0,00    3,96    3,96     0  tcpdump
+
+16:25:52      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:53      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:53      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:54      109     30589    0,00    3,96    0,00    7,92    3,96     0  tcpdump
+
+16:25:53      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:54      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:54      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:55      109     30589    1,96    2,94    0,00    8,82    4,90     0  tcpdump
+
+16:25:54      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:55      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:55      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:56      109     30589    0,99    3,96    0,00   11,88    4,95     0  tcpdump
+
+16:25:55      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:56      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:56      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:57      109     30589    1,00    4,00    0,00    6,00    5,00     0  tcpdump
+
+16:25:56      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:57      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:57      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:58      109     30589    0,00    3,96    0,00   10,89    3,96     0  tcpdump
+
+16:25:57      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:58      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:58      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:25:59      109     30589    1,98    2,97    0,00    7,92    4,95     0  tcpdump
+
+16:25:58      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:25:59      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:25:59      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:00      109     30589    1,00    4,00    0,00    6,00    5,00     0  tcpdump
+
+16:25:59      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:00      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:00      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:01      109     30589    0,99    3,96    0,00    6,93    4,95     0  tcpdump
+
+16:26:00      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:01      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:01      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:02      109     30589    0,00    4,00    0,00    5,00    4,00     0  tcpdump
+
+16:26:01      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:02      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:02      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:03      109     30589    0,99    3,96    0,00    3,96    4,95     0  tcpdump
+
+16:26:02      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:03      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:03      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:04      109     30589    0,00    4,90    0,00    9,80    4,90     0  tcpdump
+
+16:26:03      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:04      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:04      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:05      109     30589    0,00    5,00    0,00   12,00    5,00     0  tcpdump
+
+16:26:04      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:05      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:05      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:06      109     30589    1,98    2,97    0,00   10,89    4,95     0  tcpdump
+
+16:26:05      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:06      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:06      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:07      109     30589    0,99    3,96    0,00    7,92    4,95     0  tcpdump
+
+16:26:06      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:07      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:07      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:08      109     30589    0,00    3,96    0,00   11,88    3,96     0  tcpdump
+
+16:26:07      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:08      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:08      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:09      109     30589    0,99    3,96    0,00    7,92    4,95     0  tcpdump
+
+16:26:08      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:09      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:09      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:10      109     30589    0,00    5,00    0,00   10,00    5,00     0  tcpdump
+
+16:26:09      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:10      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:10      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:11      109     30589    3,00    2,00    0,00    6,00    5,00     0  tcpdump
+
+16:26:10      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:11      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:11      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:12      109     30589    0,99    2,97    0,00    4,95    3,96     0  tcpdump
+
+16:26:11      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:12      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:12      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:13      109     30589    0,99    4,95    0,00    8,91    5,94     0  tcpdump
+
+16:26:12      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:13      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:13      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:14      109     30589    0,00    4,00    0,00   10,00    4,00     0  tcpdump
+
+16:26:13      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:14      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:14      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:15      109     30589    0,00    3,96    0,00   18,81    3,96     0  tcpdump
+
+16:26:14      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:15      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:15      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:16      109     30589    0,00    3,96    0,00   11,88    3,96     0  tcpdump
+
+16:26:15      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:16      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+16:26:16      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+16:26:17      109     30589    0,00    1,00    0,00    2,00    1,00     0  tcpdump
+
+16:26:16      UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+16:26:17      109     30589      0,00      0,00   16476    7936   0,20  tcpdump
+
+Média:       UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+Média:       109     30589    1,07    3,25    0,00    8,40    4,31     -  tcpdump
+
+Média:       UID       PID  minflt/s  majflt/s     VSZ     RSS   %MEM  Command
+Média:       109     30589      0,00      0,00   16476    7936   0,20  tcpdump
