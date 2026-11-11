@@ -159,7 +159,8 @@ disparar neste laboratório. A ação é **alert**, não bloqueio. `snort -T` va
 a configuração antes de observar. O pacote instalado é Snort 2, não Snort 3.
 
 `detector-current` inicia o daemon e o monitor sem mudar seu código ou modelo.
-Os bugs de contagem e procedência do modelo impedem usar essa rodada como
-reprodução válida da detecção. Após as correções, valide bloqueio, falsos positivos,
+A contagem por deltas e o fechamento periódico foram integrados; ainda precisam
+de validação no servidor. A procedência e a escala do modelo versionado continuam
+pendentes e impedem tratar a rodada como reprodução validada da detecção. Após as correções, valide bloqueio, falsos positivos,
 continuidade do tráfego legítimo e latência até bloquear, antes da série completa.
 

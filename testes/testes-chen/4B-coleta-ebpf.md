@@ -308,8 +308,9 @@ terminal 1. Não inicie a carga se o serviço falhar.
 O cliente Ethr também recusa uma rodada com erro de handshake ou sem amostras.
 Os percentis do JSON Ethr 1.0.0 observados nos primeiros resultados apresentaram
 inconsistências; não os publique sem conferir a correspondência com o log textual.
-Essa alteração não corrige o formato dos percentis do Ethr nem o problema de
-contagem cumulativa do coletor.
+Essa alteração não corrige o formato dos percentis do Ethr. A branch elisa agora
+contém contagem por deltas e fechamento periódico das janelas; valide pelo
+`make test-window` e pelos diagnósticos antes de repetir a série no servidor.
 
 ## Resultados e interpretação
 

@@ -16,13 +16,21 @@ RULES ?= 16
 RUN ?= preliminary
 PCAP ?=
 SERVICE ?= iperf
+DATA ?= /workspace/dataset/Syn.csv
+DURATION_UNIT ?= us
+MAX_ROWS ?= 20000
+CV ?= 0
+JOBS ?= 2
+export DATA DURATION_UNIT MAX_ROWS CV JOBS
 export NODE MODE KIND DURATION PPS RULES RUN PCAP SERVICE
 
-.PHONY: help check build serve traffic observe ml
+.PHONY: help check build serve traffic observe ml ml-evaluate test-window
 help:
 	@echo 'DENTRO DO CONTAINER: check build serve traffic observe ml'
-	echo 'observe MODE=baseline|tshark|collection-current|detector-current|iptables|snort'
+	echo 'observe MODE=baseline|tshark|collection-current|detector-current|xdp-static|iptables|snort'
 	echo 'traffic KIND=tcp|latency|syn|udp|replay DURATION=120 PPS=5000'
+	echo 'ml-evaluate DATA=/workspace/dataset/Syn.csv MAX_ROWS=20000 CV=0 JOBS=2'
+	echo 'ml DATA=/workspace/dataset/Syn.csv; test-window'
 
 # DENTRO DO CONTAINER: valida o nó, o servidor de origem e o enlace isolado.
 # Abra o shell com clab-shell; ele já inicia na pasta containers.
@@ -41,7 +49,7 @@ check:
 	ip -4 route get "$$peer" | grep -q 'dev lab0'
 	test "$$(cat /proc/sys/net/ipv4/ip_forward)" = 0
 
-# DENTRO DO CONTAINER: compila somente o detector original e gera seu skeleton.
+# DENTRO DO CONTAINER: compila o detector, seu skeleton e o filtro estático IV-C.
 # Artefatos ficam em /workspace/build; nenhum programa é anexado nesta etapa.
 build: check
 	cd "$$REPO_ROOT"
@@ -51,6 +59,8 @@ build: check
 	bpftool gen skeleton build/flow_monitor.bpf.o > build/flow_monitor.skel.h
 	cp xdp-flow-monitor-main/main.c build/main.c
 	gcc -O2 -g -Wall -I build -I xdp-flow-monitor-main build/main.c xdp-flow-monitor-main/window.c -o build/flow_monitor -lbpf -lelf -lz
+
+	clang -O2 -g -target bpf -D__TARGET_ARCH_x86 -I "/usr/include/$$(gcc -print-multiarch)" -c testes/letra-c-variantes/xdp_min.c -o build/xdp_min.bpf.o
 
 # Validação de parâmetros repetida por expansão textual do Makefile, sem scripts.
 define parameters
@@ -141,8 +151,8 @@ observe: check
 	$(parameters)
 	exec 9>/run/chen-observe.lock; flock -n 9
 	if ip -j -details link show lab0 | python3 -c 'import json,sys; sys.exit(0 if any(d.get("xdp", {}).get("attached", 0) for d in json.load(sys.stdin)) else 1)'; then echo 'Já há XDP anexado em lab0. Encerre a execução anterior.' >&2; exit 1; fi
-	pids=(); chain=0; jump=0; ml_started=0
-	trap 'for pid in "$${pids[@]}"; do kill "$$pid" 2>/dev/null || true; done; wait || true; if (( jump )); then iptables-legacy -D INPUT -i lab0 -j CHEN_LAB; fi; if (( chain )); then iptables-legacy -F CHEN_LAB; iptables-legacy -X CHEN_LAB; fi; if (( ml_started )); then rm -f /tmp/ml_engine.sock; fi' EXIT
+	pids=(); chain=0; jump=0; ml_started=0; static_started=0; pin=""
+	trap 'if (( static_started )); then bpftool net detach xdp dev lab0; fi; if [ -n "$$pin" ]; then rm -f "$$pin/prog" "$$pin/blacklist_map"; rmdir "$$pin"; fi; for pid in "$${pids[@]}"; do kill "$$pid" 2>/dev/null || true; done; wait || true; if (( jump )); then iptables-legacy -D INPUT -i lab0 -j CHEN_LAB; fi; if (( chain )); then iptables-legacy -F CHEN_LAB; iptables-legacy -X CHEN_LAB; fi; if (( ml_started )); then rm -f /tmp/ml_engine.sock; fi' EXIT
 	case "$$MODE" in
 	baseline) ;;
 	tshark) tshark -n -l -i lab0 > "$$out/tshark.log" 2>&1 & pids+=("$$!");;
@@ -156,6 +166,20 @@ observe: check
 			test -S /tmp/ml_engine.sock
 		fi
 		stdbuf -oL build/flow_monitor lab0 > "$$out/monitor.log" 2>&1 & pids+=("$$!");;
+	xdp-static)
+		[[ "$$RULES" =~ ^[0-9]+$$ ]] && (( RULES >= 6 && RULES <= 512 ))
+		test -f build/xdp_min.bpf.o
+		pin=$$(mktemp -d /sys/fs/bpf/chen-static-XXXXXX)
+		bpftool prog load build/xdp_min.bpf.o "$$pin/prog" pinmaps "$$pin"
+		for (( i=1; i<=RULES-6; i++ )); do
+			bpftool map update pinned "$$pin/blacklist_map" key hex 20 00 00 00 c6 12 $$(printf '%02x %02x' "$$((i/256))" "$$((i%256))") value hex 01
+		done
+		for i in {101..106}; do
+			bpftool map update pinned "$$pin/blacklist_map" key hex 20 00 00 00 c0 a8 9d $$(printf '%02x' "$$i") value hex 01
+		done
+		bpftool -j map dump pinned "$$pin/blacklist_map" > "$$out/xdp-rules.json"
+		bpftool net attach xdp pinned "$$pin/prog" dev lab0; static_started=1
+		bpftool -j prog show pinned "$$pin/prog" > "$$out/xdp-program.json";;
 	iptables)
 		[[ "$$RULES" =~ ^[0-9]+$$ ]] && (( RULES >= 6 && RULES <= 512 ))
 		iptables-legacy -N CHEN_LAB; chain=1
@@ -166,7 +190,7 @@ observe: check
 		printf '%s\n' 'ipvar EXTERNAL_NET 192.168.157.20/32' 'output alert_fast: alerts.log' 'alert udp any any -> $$EXTERNAL_NET any (msg:"Possible UDP Flood detected"; threshold: type threshold, track by_src, count 100, seconds 10; sid:1000003; rev:1;)' > "$$out/snort.conf"
 		snort -T -c "$$out/snort.conf" -i lab0 > "$$out/snort-check.log" 2>&1
 		snort -q -c "$$out/snort.conf" -i lab0 -l "$$out" -k none > "$$out/snort.log" 2>&1 & pids+=("$$!");;
-	*) echo 'MODE não disponível. O filtro BPF adicional foi removido; XDP estático não está implementado no detector original.' >&2; exit 1;;
+	*) echo 'MODE não disponível. Use baseline, tshark, collection-current, detector-current, xdp-static, iptables ou snort.' >&2; exit 1;;
 	esac
 	sleep 2
 	for pid in "$${pids[@]}"; do
@@ -176,11 +200,11 @@ observe: check
 			exit 1
 		fi
 	done
-	case "$$MODE" in collection-current|detector-current)
+	case "$$MODE" in collection-current|detector-current|xdp-static)
 		ip -j -details link show lab0 > "$$out/xdp-attached.json"
 		if ! python3 -c 'import json,sys; sys.exit(0 if any(d.get("xdp", {}).get("attached", 0) for d in json.load(open(sys.argv[1]))) else 1)' "$$out/xdp-attached.json"; then
 			echo 'ERRO: XDP não está anexado; rodada cancelada antes de PRONTO.' >&2
-			cat "$$out/monitor.log" >&2
+			if [ -f "$$out/monitor.log" ]; then cat "$$out/monitor.log" >&2; fi
 			exit 1
 		fi;;
 	esac
@@ -205,11 +229,24 @@ observe: check
 	date -u +%s.%N > "$$out/end-epoch.txt"
 	if (( chain )); then iptables-legacy -nvxL CHEN_LAB > "$$out/iptables-counters.txt"; fi
 
-# Usa apenas o treinador que já existia. Não implementa a comparação da Fig. 7.
-ml: check
+# Artefatos de ML ficam no volume persistente de resultados.
+ml ml-evaluate: check
 	cd "$$REPO_ROOT"
 	test "$$(cat /etc/xdp-chen-lab)" = target
-	mkdir -p build/ml
-	ln -sfn /workspace/dataset build/ml/dataset
-	cd build/ml
-	../../.venv/bin/python ../../xdp-flow-monitor-main/train_model.py | tee training.log
+	$(parameters)
+	test -e "$$DATA"
+	sha256sum xdp-flow-monitor-main/features.py xdp-flow-monitor-main/train_model.py xdp-flow-monitor-main/evaluate_models.py > "$$out/code.sha256"
+	if [ -d "$$DATA" ]; then find "$$DATA" -maxdepth 1 -type f -name '*.csv' -exec sha256sum {} +; else sha256sum "$$DATA"; fi > "$$out/dataset.sha256"
+	printf 'DATA=%s\nDURATION_UNIT=%s\nMAX_ROWS=%s\nCV=%s\nJOBS=%s\n' "$$DATA" "$$DURATION_UNIT" "$$MAX_ROWS" "$$CV" "$$JOBS" > "$$out/ml-parameters.txt"
+	if [ "$@" = ml ]; then
+		.venv/bin/python -u xdp-flow-monitor-main/train_model.py --data "$$DATA" --duration-unit "$$DURATION_UNIT" --out "$$out/ddos_model.ubj" | tee "$$out/training.log"
+	else
+		.venv/bin/python -u xdp-flow-monitor-main/evaluate_models.py --data "$$DATA" --duration-unit "$$DURATION_UNIT" --max-rows "$$MAX_ROWS" --cv "$$CV" --jobs "$$JOBS" --out "$$out" | tee "$$out/evaluation.log"
+	fi
+	echo "Resultados persistentes: $$out"
+
+test-window:
+	cd "$$REPO_ROOT"
+	mkdir -p build
+	gcc -O2 -Wall -Wextra xdp-flow-monitor-main/test_window.c xdp-flow-monitor-main/window.c -o build/test_window
+	build/test_window

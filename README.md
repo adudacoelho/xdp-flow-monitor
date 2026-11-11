@@ -1,5 +1,9 @@
 # xdp-flow-monitor
 
+## Reprodução no servidor
+
+Use [PREPARANDOSERVIDOR.md](testes/testes-chen/PREPARANDOSERVIDOR.md) para atualizar o laboratório Docker/Containerlab. Os roteiros atuais são [4B](testes/testes-chen/4B-coleta-ebpf.md), [4C](testes/testes-chen/4C-filtragem-xdp.md), [4D](testes/testes-chen/4D-classificacao.md) e [4E](testes/testes-chen/4E-sistema-completo.md). As instruções de VM e containers `clab-xdp-ddos-*` abaixo são históricas.
+
 Monitor de rede com XDP/eBPF e detecção de DDoS por machine learning (XGBoost).
 
 ## Visão geral
@@ -228,7 +232,7 @@ No terminal do ML daemon:
 
 ## Observações
 
-- O dataset incluído (`dataset/synthetic_ddos.csv`) é **sintético**, não o CIC-DDoS2019. Para usar o real, veja o Passo 1. A acurácia reportada (~99%) vem de classes que se sobrepõem de propósito; o valor com o CIC real pode ser diferente.
+- O dataset incluído (`dataset/synthetic_ddos.csv`) é **sintético**, não o CIC-DDoS2019. Para usar o real, veja o Passo 1. O gerador integrado permite criar outro conjunto sintético; nenhum valor de acurácia está validado nesta integração. O modelo versionado não foi retreinado.
 - `window.c` agora soma **deltas** dos contadores cumulativos que o BPF envia por pacote (antes contava o mesmo pacote milhares de vezes, gerando pkts/s absurdos). Teste: `gcc -O2 -o test_window test_window.c window.c && ./test_window`.
 - O `blacklist_map` bloqueia IPs via XDP com `XDP_DROP`, antes mesmo do pacote chegar ao kernel, tornando o bloqueio extremamente eficiente.
 - A janela de agregação é configurável em `window.h` via `WINDOW_SEC` (padrão: 5 segundos).

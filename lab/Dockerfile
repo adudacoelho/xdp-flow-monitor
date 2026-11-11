@@ -13,7 +13,7 @@ RUN tool="$(find /usr/lib -path '/usr/lib/linux-tools*' -type f -name bpftool | 
 WORKDIR /workspace
 RUN python3 -m venv /workspace/.venv && \
     /workspace/.venv/bin/pip install --no-cache-dir \
-      numpy==1.26.4 pandas==2.2.3 scikit-learn==1.5.2 xgboost==2.1.4 && \
+      numpy==1.26.4 pandas==2.2.3 scikit-learn==1.5.2 xgboost==2.1.4 matplotlib==3.9.2 && \
     /workspace/.venv/bin/pip freeze > /workspace/.venv/installed-versions.txt
 # Ethr 1.0.0 não fixa x/net; versões recentes exigem Go posterior ao 1.18.
 # Um módulo de build fixa as dependências sem alterar o Go do servidor.

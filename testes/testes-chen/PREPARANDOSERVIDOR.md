@@ -200,3 +200,30 @@ contém o código e o Makefile. Os resultados montados são preservados.
 Repita todos os cenários que serão comparados com a nova MTU; não misture
 baseline/TShark antigos em MTU 9500 com eBPF novo em MTU 1500. Use novos nomes
 `RUN` e preserve os dados anteriores como diagnóstico.
+
+## Integração das branches na elisa
+
+As contribuições IV-B e IV-D foram integradas; IV-C e IV-E já estavam no
+histórico. Os scripts antigos de IV-B/IV-C usam `clab-xdp-ddos-*`; para o
+laboratório atual, use os roteiros 4B–4E desta pasta.
+
+Depois de atualizar a branch elisa no servidor, com testes encerrados:
+
+```bash
+git switch elisa
+git pull --ff-only origin elisa
+make clab-down
+make clab-image
+make clab-up
+make clab-check
+make clab-build
+make host-record
+make clab-shell NODE=target
+```
+
+Dentro de target, execute `make test-window` antes da campanha. A imagem agora
+inclui matplotlib; o build inclui o filtro estático da IV-C. Os novos alvos são
+`observe MODE=xdp-static` e `ml-evaluate`, detalhados nos roteiros 4C e 4D.
+Os modelos e relatórios de ML agora ficam no volume persistente de resultados.
+A integração local não executou benchmarks no servidor. As pendências de
+validação do detector, dataset real e tempos por etapa continuam aplicáveis.

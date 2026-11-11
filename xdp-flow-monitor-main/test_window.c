@@ -46,7 +46,10 @@ int main(void) {
         if (window_update(&n, &g)) { if (!c2) got2 = g; c2++; }
     }
     printf("(recriado) pkts/s=%.1f\n", got2.flow_pkts_per_sec);
-    CHECK(c2 >= 1 && fabs(got2.flow_pkts_per_sec - 1000.0) < 20.0, "fluxo recriado não duplica contagem");
+    /* A janela fixa de 5 s inclui a pausa de 100 ms: 4900 pacotes / 5 s. */
+    CHECK(c2 == 1 && got2.syn_count == 4900 &&
+          fabs(got2.flow_pkts_per_sec - 980.0) < 0.01,
+          "fluxo recriado: 4900 pacotes em janela fixa de 5 s");
 
     /* Cenário 3: 3 portas de origem diferentes do mesmo src_ip somam */
     struct flow_metrics p = m; p.src_ip = 0x0800140a; FlowFeatures h, got3 = {0}; int c3 = 0;
@@ -60,6 +63,25 @@ int main(void) {
     }
     printf("(3 portas) pkts/s=%.1f\n", got3.flow_pkts_per_sec);
     CHECK(c3 >= 1 && fabs(got3.flow_pkts_per_sec - 3 * 333.3) < 15.0, "3 fluxos do mesmo IP somam ~1000 pkts/s");
+
+    /* Sem novos eventos, o polling fecha a janela e libera o slot. */
+    struct flow_metrics idle = {0};
+    idle.src_ip = 0x0900140a; idle.protocol = 6;
+    idle.start_ts = idle.current_ts = 30000000000ULL;
+    idle.flow_packets = idle.syn_count = 1;
+    idle.flow_bytes = idle.min_packet_len = 54;
+    window_update(&idle, &f);
+    int found = 0;
+    while (window_next(35000000000ULL, 0, &f)) {
+        if (f.src_ip == idle.src_ip) {
+            found++;
+            CHECK(f.syn_count == 1 && fabs(f.duration_sec - 5.0) < 0.001,
+                  "janela inativa fecha pelo prazo sem duplicar pacotes");
+        }
+    }
+    CHECK(found == 1, "janela inativa exportada uma vez");
+    CHECK(window_next(35000000000ULL, 0, &f) == 0,
+          "polling repetido não reexporta janela fechada");
 
     printf(fails ? "\n%d teste(s) falharam\n" : "\nTodos os testes passaram\n", fails);
     return fails != 0;
