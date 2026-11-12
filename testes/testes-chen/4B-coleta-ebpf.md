@@ -52,6 +52,37 @@ cd /workspace/testes/testes-chen/containers
 observação e tráfego ocupam o terminal até terminarem. Não cole todos os blocos
 em um único shell. Para sair de um container, use `exit 0`.
 
+## Se a rodada TShark não devolve o prompt
+
+O terminal 3 (`generator`) termina a carga em aproximadamente 50 s; o terminal
+2 (`target`, `observe`) observa por 70 s e depois encerra os processos. O serviço
+no terminal 1 permanece ativo para as próximas rodadas. Não inicie outro servidor
+iperf enquanto esse serviço estiver ativo.
+
+O executor antigo usava uma espera sem limite no encerramento do TShark.
+A versão corrigida mostra `Encerrando processos da observação`, concede até
+5 s de tolerância e, se necessário, encerra o grupo TShark/dumpcap à força.
+Isso não garante prazo em situações como bloqueio de I/O no kernel.
+`shutdown.log` registra encerramento forçado; confira o log de captura antes de
+validar a rodada. `status.txt` registra o código de saída (130 para Ctrl+C),
+`end-epoch.txt` o fim das métricas e `cleanup-end-epoch.txt` o fim da limpeza.
+Nenhum desses arquivos sozinho comprova uma rodada válida.
+
+Atualizar apenas o Git no servidor não atualiza os containers: o código foi
+copiado na construção da imagem. Com testes encerrados, atualize a elisa e
+reconstrua pelo [roteiro do servidor](PREPARANDOSERVIDOR.md). Antes de começar,
+confira no servidor se o código no container corresponde ao arquivo atualizado:
+
+```bash
+sha256sum containers/Makefile
+sudo docker exec clab-chen-target sha256sum /workspace/testes/testes-chen/containers/Makefile
+```
+
+Execute esses dois comandos em `~/xdp-flow-monitor/testes/testes-chen`, fora
+dos containers. Os hashes devem coincidir. Use `make -s observe ...` para
+ocultar a impressão dos comandos e enxergar as mensagens de progresso.
+Preserve tentativas interrompidas e repita com outro RUN nos dois terminais.
+
 ## ATENÇÃO — prepare a carga antes de iniciar a observação
 
 Deixe o comando do terminal 3 digitado, **sem pressionar Enter**. Inicie a

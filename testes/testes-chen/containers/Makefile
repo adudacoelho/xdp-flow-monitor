@@ -151,11 +151,44 @@ observe: check
 	$(parameters)
 	exec 9>/run/chen-observe.lock; flock -n 9
 	if ip -j -details link show lab0 | python3 -c 'import json,sys; sys.exit(0 if any(d.get("xdp", {}).get("attached", 0) for d in json.load(sys.stdin)) else 1)'; then echo 'Já há XDP anexado em lab0. Encerre a execução anterior.' >&2; exit 1; fi
-	pids=(); chain=0; jump=0; ml_started=0; static_started=0; pin=""
-	trap 'if (( static_started )); then bpftool net detach xdp dev lab0; fi; if [ -n "$$pin" ]; then rm -f "$$pin/prog" "$$pin/blacklist_map"; rmdir "$$pin"; fi; for pid in "$${pids[@]}"; do kill "$$pid" 2>/dev/null || true; done; wait || true; if (( jump )); then iptables-legacy -D INPUT -i lab0 -j CHEN_LAB; fi; if (( chain )); then iptables-legacy -F CHEN_LAB; iptables-legacy -X CHEN_LAB; fi; if (( ml_started )); then rm -f /tmp/ml_engine.sock; fi' EXIT
+	pids=(); chain=0; jump=0; ml_started=0; static_started=0; pin=""; capture_pid=""
+	cleanup_observe() {
+		rc=$$?
+		trap - EXIT INT TERM
+		set +e
+		printf 'exit_code=%s\n' "$$rc" > "$$out/status.txt"
+		echo "Encerrando processos da observação (até 5 s de tolerância)..."
+		if [ -n "$$capture_pid" ]; then kill -TERM -- "-$$capture_pid" 2>/dev/null; fi
+		for pid in "$${pids[@]}"; do kill -TERM "$$pid" 2>/dev/null; done
+		deadline=$$((SECONDS+5))
+		while (( SECONDS < deadline )); do
+			alive=0
+			for pid in $$(jobs -pr); do alive=1; done
+			if [ -n "$$capture_pid" ] && kill -0 -- "-$$capture_pid" 2>/dev/null; then alive=1; fi
+			(( alive )) || break
+			sleep 0.1
+		done
+		if [ -n "$$capture_pid" ] && kill -0 -- "-$$capture_pid" 2>/dev/null; then
+			echo 'TShark/dumpcap excedeu a tolerância; encerramento forçado.' | tee -a "$$out/shutdown.log"
+			kill -KILL -- "-$$capture_pid" 2>/dev/null
+		fi
+		for pid in $$(jobs -pr); do kill -KILL "$$pid" 2>/dev/null; done
+		for pid in "$${pids[@]}"; do wait "$$pid" 2>/dev/null; done
+		if (( static_started )); then bpftool net detach xdp dev lab0; fi
+		if [ -n "$$pin" ]; then rm -f "$$pin/prog" "$$pin/blacklist_map"; rmdir "$$pin"; fi
+		if (( jump )); then iptables-legacy -D INPUT -i lab0 -j CHEN_LAB; fi
+		if (( chain )); then iptables-legacy -F CHEN_LAB; iptables-legacy -X CHEN_LAB; fi
+		if (( ml_started )); then rm -f /tmp/ml_engine.sock; fi
+		date -u +%s.%N > "$$out/cleanup-end-epoch.txt"
+		echo "Observação encerrada (código $$rc). Resultados: $$out"
+		exit "$$rc"
+	}
+	trap cleanup_observe EXIT
+	trap 'exit 130' INT
+	trap 'exit 143' TERM
 	case "$$MODE" in
 	baseline) ;;
-	tshark) tshark -n -l -i lab0 > "$$out/tshark.log" 2>&1 & pids+=("$$!");;
+	tshark) setsid tshark -n -l -i lab0 > "$$out/tshark.log" 2>&1 9>&- & capture_pid=$$!; pids+=("$$capture_pid");;
 	collection-current|detector-current)
 		test -x build/flow_monitor
 		test ! -e /tmp/ml_engine.sock
@@ -223,8 +256,11 @@ observe: check
 	for (( i=0; i<DURATION; i++ )); do
 		sleep 1
 		# Monitor/comparador deve continuar vivo durante a coleta.
-		for (( j=0; j<$${#pids[@]}-3; j++ )); do kill -0 "$${pids[j]}"; done
+		for (( j=0; j<$${#pids[@]}-3; j++ )); do
+			if ! kill -0 "$${pids[j]}" 2>/dev/null; then echo "ERRO: processo $${pids[j]} encerrou durante a observação. Consulte $$out" >&2; exit 1; fi
+		done
 	done
+	echo "Coleta de métricas concluída; aguardando os arquivos de CPU, memória e rede."
 	for (( j=$${#pids[@]}-3; j<$${#pids[@]}; j++ )); do wait "$${pids[j]}"; done
 	date -u +%s.%N > "$$out/end-epoch.txt"
 	if (( chain )); then iptables-legacy -nvxL CHEN_LAB > "$$out/iptables-counters.txt"; fi
