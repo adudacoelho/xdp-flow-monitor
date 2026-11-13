@@ -88,3 +88,20 @@ indicam coleta. Os resultados continuam ignorados pelo Git.
 
 Em caso de erro de conexão, confira seu acesso com `ssh "$SERVER"`. Para erros
 de caminho, revise `SERVER_REPO` e a existência de `results-servidor/` no servidor.
+
+## 6. Limpar os resultados do servidor (opcional)
+
+Depois de conferir que o download terminou e contém os arquivos desejados,
+encerre os testes. No **servidor, fora dos containers**:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-down
+make clean-results
+```
+
+O comando mostra o caminho e o espaço ocupado e pede que você digite `LIMPAR`.
+Apaga todo o conteúdo de `results-servidor`, inclusive tentativas antigas e
+registros do ambiente, preservando a pasta e arquivos `.gitkeep`. Não apaga
+os dados já baixados no PC, os datasets ou o código. Recusa executar enquanto
+houver containers `clab-chen-*` ativos. Não é uma limpeza automática após baixar.

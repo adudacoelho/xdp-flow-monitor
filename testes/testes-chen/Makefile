@@ -14,7 +14,7 @@ SERVER ?=
 SERVER_REPO ?=
 export SERVER SERVER_REPO
 
-.PHONY: get-results help server-check host-check host-setup clab-setup clab-image clab-up clab-status clab-check clab-build clab-shell host-record clab-down
+.PHONY: clean-results get-results help server-check host-check host-setup clab-setup clab-image clab-up clab-status clab-check clab-build clab-shell host-record clab-down
 
 help:
 	@echo 'NO SERVIDOR, nesta pasta:'
@@ -28,6 +28,7 @@ help:
 	echo '  make clab-shell NODE=target|generator — abrir terminal'
 	echo '  make host-record      — salvar informações do ambiente'
 	echo '  make clab-down        — remover laboratório, preservando resultados'
+	echo '  make clean-results    — apagar resultados do servidor após clab-down (pede confirmação)'
 	echo 'NO PC: make get-results SERVER=usuario@servidor SERVER_REPO=/caminho/do/projeto'
 
 server-check:
@@ -127,3 +128,19 @@ get-results:
 	echo "Copiando resultados de $$SERVER para $$CHEN_RESULTS..."
 	rsync -azs --info=progress2 --partial --exclude=.gitkeep "$$SERVER:$$SERVER_REPO/testes/testes-chen/results-servidor/" "$$CHEN_RESULTS/"
 	echo 'Transferência concluída com sucesso.'
+
+# NO SERVIDOR: limpeza explícita, independente do download.
+clean-results: server-check
+	@test "$$(cat /etc/xdp-chen-lab)" = servidor || { echo 'Execute no servidor do laboratório.' >&2; exit 1; }
+	[[ "$$CHEN_RESULTS" = "$$PWD/results-servidor" ]] || { echo 'Diretório de resultados inesperado.' >&2; exit 1; }
+	test ! -L "$$CHEN_RESULTS" || { echo 'Recusando limpar results-servidor como link simbólico.' >&2; exit 1; }
+	if [ ! -d "$$CHEN_RESULTS" ]; then echo 'Não há resultados para limpar.'; exit 0; fi
+	running=$$(sudo docker ps --format '{{.Names}}' --filter name=clab-chen-)
+	if [ -n "$$running" ]; then echo 'Encerre os testes e execute make clab-down antes da limpeza.' >&2; exit 1; fi
+	echo "Serão apagados TODOS os resultados em $$CHEN_RESULTS (incluindo rodadas antigas e registros do ambiente)."
+	sudo du -sh -- "$$CHEN_RESULTS"
+	read -r -p 'Confira o download. Digite LIMPAR para apagar: ' answer
+	if [ "$$answer" != LIMPAR ]; then echo 'Limpeza cancelada.'; exit 0; fi
+	sudo find "$$CHEN_RESULTS" -mindepth 1 ! -type d ! -name .gitkeep -delete
+	sudo find "$$CHEN_RESULTS" -mindepth 1 -depth -type d -empty -delete
+	echo 'Resultados do servidor apagados. A pasta results-servidor e os arquivos .gitkeep foram preservados.'

@@ -24,4 +24,6 @@ RUN mkdir -p /tmp/ethr-build && cd /tmp/ethr-build && \
     GOBIN=/usr/local/bin go install -mod=mod github.com/microsoft/ethr && \
     rm -rf /tmp/ethr-build
 COPY . /workspace
+# Os shells abertos por clab-shell usam root e leem /root/.bashrc.
+RUN printf '%s\n' 'PS1="\[\e[1;32m\]\u@\h:\w# \[\e[0m\]"' >> /root/.bashrc
 CMD ["sleep", "infinity"]
