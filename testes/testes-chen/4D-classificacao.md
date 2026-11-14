@@ -14,18 +14,57 @@ No servidor, coloque o CSV real em `dataset/Syn.csv` antes de criar o laboratór
 Essa pasta é montada somente para leitura nos containers. Escolha explicitamente
 os arquivos; apontar para uma pasta mistura todos os CSVs dela.
 
-No servidor, em `testes/testes-chen`:
+## Antes de começar — acessar o servidor e abrir os terminais
+
+Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo
+`make clab-check` e `make clab-build`. Se o código mudou, atualize o repositório
+e reconstrua o laboratório antes dos testes, conforme esse roteiro.
+
+Abra um terminal no seu PC para cada função abaixo. Em cada um, execute primeiro
+o SSH; espere aparecer o prompt do servidor antes de executar o bloco seguinte.
+Se já estiver conectado ao servidor nesse terminal, pule somente o SSH.
+Os comandos usam o acesso de Elisa; outras pessoas devem ajustar usuário,
+endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
+
+| Terminal | Container | Função |
+| --- | --- | --- |
+| 1 | `target` | Classificação e avaliação dos modelos |
+
+### TERMINAL 1 — Classificação e avaliação dos modelos
+
+**No PC**, conecte ao servidor:
 
 ```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
+
+O shell abre em `/workspace/testes/testes-chen/containers`. Confira o prompt:
+`root@target` nos terminais de serviço/observação/classificação e
+`root@generator` nos terminais de carga. Se já estiver no container correto:
+
+```bash
+cd /workspace/testes/testes-chen/containers
+```
+
+Execute os comandos de cada teste somente no terminal indicado. Os serviços e
+as coletas ocupam seus terminais até terminar; não cole todos os blocos em um
+único shell. Para sair do container e voltar ao servidor, use `exit 0`.
+Os comandos abaixo usam `make -s` para ocultar a listagem interna do Makefile;
+as mensagens do teste e os erros continuam aparecendo.
 
 ## Validar janelas
 
 Dentro de target, na pasta aberta pelo shell:
 
 ```bash
-make test-window
+make -s test-window
 ```
 
 Esse teste C não depende de tráfego ou carregamento BPF.
@@ -33,7 +72,7 @@ Esse teste C não depende de tráfego ou carregamento BPF.
 ## Avaliar modelos
 
 ```bash
-make ml-evaluate DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us MAX_ROWS=20000 CV=0 JOBS=2 RUN=fig7-real-r1
+make -s ml-evaluate DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us MAX_ROWS=20000 CV=0 JOBS=2 RUN=fig7-real-r1
 ```
 
 Comece sem validação cruzada. SVM e KNN podem demorar; `MAX_ROWS` limita a amostra
@@ -55,7 +94,7 @@ inferência em lote não equivale ao tempo por pacote da Tabela II.
 ## Treinar apenas XGBoost
 
 ```bash
-make ml DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us RUN=xgb-real-r1
+make -s ml DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us RUN=xgb-real-r1
 ```
 
 O modelo é salvo no volume de resultados junto com o log e hashes. A duração
@@ -66,10 +105,12 @@ antigo treinado na escala anterior precisa ser retreinado antes de uso ao vivo.
 
 ## Ensaio sem dados reais
 
-No servidor, antes de reconstruir a imagem, gere um arquivo separado usando
-um ambiente Python com numpy e pandas:
+Em outro terminal conectado ao servidor, **fora dos containers**, gere um arquivo
+separado usando um ambiente Python com numpy e pandas. Entre primeiro na raiz
+do repositório (esse comando não usa a pasta `testes/testes-chen`):
 
 ```bash
+cd ~/xdp-flow-monitor
 python3 xdp-flow-monitor-main/gen_dataset.py --n 2000 --out dataset/ensaio-sintetico.csv
 ```
 

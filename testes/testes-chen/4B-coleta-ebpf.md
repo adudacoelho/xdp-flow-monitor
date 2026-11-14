@@ -4,11 +4,17 @@ Compare throughput, CPU/memória e latência em três condições: `baseline`,
 `tshark` e `collection-current`. Comece pelo **teste 1 — throughput TCP**.
 O roteiro ainda precisa ser validado no servidor.
 
-## Antes de começar — abrir os terminais
+## Antes de começar — acessar o servidor e abrir os terminais
 
-Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo a compilação
-com `make clab-build`. Abra **uma sessão SSH no servidor para cada terminal**
-abaixo. Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
+Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo
+`make clab-check` e `make clab-build`. Se o código mudou, atualize o repositório
+e reconstrua o laboratório antes dos testes, conforme esse roteiro.
+
+Abra um terminal no seu PC para cada função abaixo. Em cada um, execute primeiro
+o SSH; espere aparecer o prompt do servidor antes de executar o bloco seguinte.
+Se já estiver conectado ao servidor nesse terminal, pule somente o SSH.
+Os comandos usam o acesso de Elisa; outras pessoas devem ajustar usuário,
+endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
 
 | Terminal | Container | Função |
 | --- | --- | --- |
@@ -16,41 +22,64 @@ abaixo. Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
 | 2 | `target` | Observação e coleta de métricas |
 | 3 | `generator` | Geração de tráfego |
 
-### TERMINAL 1 — NO SERVIDOR: entrar em TARGET
+### TERMINAL 1 — Serviço que recebe conexões
+
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
 
+### TERMINAL 2 — Observação e coleta de métricas
 
-### TERMINAL 2 — NO SERVIDOR: entrar em TARGET
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
 
+### TERMINAL 3 — Geração de tráfego
 
-### TERMINAL 3 — NO SERVIDOR: entrar em GENERATOR
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `generator`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=generator
 ```
 
-O shell já abre em `/workspace/testes/testes-chen/containers`.
-Confira o prompt: **`root@target` nos terminais 1 e 2** e
-**`root@generator` nos terminais de geração**.
-Se já estiver no container correto, basta entrar na pasta:
+O shell abre em `/workspace/testes/testes-chen/containers`. Confira o prompt:
+`root@target` nos terminais de serviço/observação/classificação e
+`root@generator` nos terminais de carga. Se já estiver no container correto:
 
 ```bash
 cd /workspace/testes/testes-chen/containers
 ```
 
-**Execute cada bloco somente no terminal indicado.** Os comandos de serviço,
-observação e tráfego ocupam o terminal até terminarem. Não cole todos os blocos
-em um único shell. Para sair de um container, use `exit 0`.
+Execute os comandos de cada teste somente no terminal indicado. Os serviços e
+as coletas ocupam seus terminais até terminar; não cole todos os blocos em um
+único shell. Para sair do container e voltar ao servidor, use `exit 0`.
+Os comandos abaixo usam `make -s` para ocultar a listagem interna do Makefile;
+as mensagens do teste e os erros continuam aparecendo.
 
 ## Se a rodada TShark não devolve o prompt
 
@@ -110,7 +139,7 @@ de coleta deste roteiro. Aqui mantemos as cargas com duração limitada.
 ### TERMINAL 1 — TARGET: iniciar o serviço iperf3
 
 ```bash
-make serve SERVICE=iperf DURATION=1200 RUN=fig5-server
+make -s serve SERVICE=iperf DURATION=1200 RUN=fig5-server
 ```
 
 Mantenha esse terminal ocupado pelo serviço. Ele termina após 1200 segundos;
@@ -123,7 +152,7 @@ rodada, confira se continua ativo. Em caso de saída imediata, consulte o
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=baseline DURATION=70 RUN=fig5-baseline-r1
+make -s observe MODE=baseline DURATION=70 RUN=fig5-baseline-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -133,7 +162,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=tcp DURATION=50 RUN=fig5-baseline-r1
+make -s traffic KIND=tcp DURATION=50 RUN=fig5-baseline-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -143,7 +172,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=tshark DURATION=70 RUN=fig5-tshark-r1
+make -s observe MODE=tshark DURATION=70 RUN=fig5-tshark-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -153,7 +182,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=tcp DURATION=50 RUN=fig5-tshark-r1
+make -s traffic KIND=tcp DURATION=50 RUN=fig5-tshark-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -163,7 +192,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=collection-current DURATION=70 RUN=fig5-collection-current-r1
+make -s observe MODE=collection-current DURATION=70 RUN=fig5-collection-current-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -173,7 +202,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=tcp DURATION=50 RUN=fig5-collection-current-r1
+make -s traffic KIND=tcp DURATION=50 RUN=fig5-collection-current-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -187,7 +216,7 @@ Se o serviço do teste anterior ainda estiver rodando, mantenha-o. Caso tenha
 terminado, execute:
 
 ```bash
-make serve SERVICE=iperf DURATION=1200 RUN=fig5-syn-server
+make -s serve SERVICE=iperf DURATION=1200 RUN=fig5-syn-server
 ```
 
 ### Rodada 1 — baseline
@@ -195,7 +224,7 @@ make serve SERVICE=iperf DURATION=1200 RUN=fig5-syn-server
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=baseline DURATION=140 RUN=fig5-syn-baseline-r1
+make -s observe MODE=baseline DURATION=140 RUN=fig5-syn-baseline-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -205,7 +234,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-baseline-r1
+make -s traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-baseline-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -215,7 +244,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=tshark DURATION=140 RUN=fig5-syn-tshark-r1
+make -s observe MODE=tshark DURATION=140 RUN=fig5-syn-tshark-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -225,7 +254,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-tshark-r1
+make -s traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-tshark-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -235,7 +264,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=collection-current DURATION=140 RUN=fig5-syn-collection-current-r1
+make -s observe MODE=collection-current DURATION=140 RUN=fig5-syn-collection-current-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -245,7 +274,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-collection-current-r1
+make -s traffic KIND=syn PPS=5000 DURATION=120 RUN=fig5-syn-collection-current-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -259,7 +288,7 @@ Encerre o iperf3 com **Ctrl+C no terminal 1** e aguarde o prompt retornar.
 Ambos os serviços usam a porta 80, portanto não podem ficar ativos juntos.
 
 ```bash
-make serve SERVICE=ethr DURATION=1200 RUN=fig5-lat-server
+make -s serve SERVICE=ethr DURATION=1200 RUN=fig5-lat-server
 ```
 
 Se o serviço encerrar após 1200 segundos, reinicie-o antes da próxima rodada.
@@ -269,7 +298,7 @@ Se o serviço encerrar após 1200 segundos, reinicie-o antes da próxima rodada.
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=baseline DURATION=140 RUN=fig5-lat-baseline-r1
+make -s observe MODE=baseline DURATION=140 RUN=fig5-lat-baseline-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -279,7 +308,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=latency DURATION=120 RUN=fig5-lat-baseline-r1
+make -s traffic KIND=latency DURATION=120 RUN=fig5-lat-baseline-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -289,7 +318,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=tshark DURATION=140 RUN=fig5-lat-tshark-r1
+make -s observe MODE=tshark DURATION=140 RUN=fig5-lat-tshark-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -299,7 +328,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=latency DURATION=120 RUN=fig5-lat-tshark-r1
+make -s traffic KIND=latency DURATION=120 RUN=fig5-lat-tshark-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.
@@ -309,7 +338,7 @@ Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodad
 #### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=collection-current DURATION=140 RUN=fig5-lat-collection-current-r1
+make -s observe MODE=collection-current DURATION=140 RUN=fig5-lat-collection-current-r1
 ```
 
 **Aguarde aparecer `PRONTO: inicie a carga em generator`.** Só então execute
@@ -319,7 +348,7 @@ Se houver erro, não inicie a carga.
 #### TERMINAL 3 — GENERATOR: gerar o tráfego
 
 ```bash
-make traffic KIND=latency DURATION=120 RUN=fig5-lat-collection-current-r1
+make -s traffic KIND=latency DURATION=120 RUN=fig5-lat-collection-current-r1
 ```
 
 Aguarde **os terminais 2 e 3 retornarem ao prompt** antes de iniciar outra rodada.

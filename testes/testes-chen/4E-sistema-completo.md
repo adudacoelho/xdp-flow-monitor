@@ -4,11 +4,17 @@
 detector.** Os comandos abaixo não produzem, sozinhos, uma reprodução válida
 dos tempos por etapa ou da detecção do artigo.
 
-## Antes de começar — abrir os terminais
+## Antes de começar — acessar o servidor e abrir os terminais
 
-Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo a compilação
-com `make clab-build`. Abra **uma sessão SSH no servidor para cada terminal**
-abaixo. Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
+Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo
+`make clab-check` e `make clab-build`. Se o código mudou, atualize o repositório
+e reconstrua o laboratório antes dos testes, conforme esse roteiro.
+
+Abra um terminal no seu PC para cada função abaixo. Em cada um, execute primeiro
+o SSH; espere aparecer o prompt do servidor antes de executar o bloco seguinte.
+Se já estiver conectado ao servidor nesse terminal, pule somente o SSH.
+Os comandos usam o acesso de Elisa; outras pessoas devem ajustar usuário,
+endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
 
 | Terminal | Container | Função |
 | --- | --- | --- |
@@ -17,49 +23,79 @@ abaixo. Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
 | 3 | `generator` | Geração de tráfego |
 | 4 | `generator` | Tráfego TCP simultâneo ao ataque |
 
-### TERMINAL 1 — NO SERVIDOR: entrar em TARGET
+### TERMINAL 1 — Serviço que recebe conexões
+
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
 
+### TERMINAL 2 — Observação e coleta de métricas
 
-### TERMINAL 2 — NO SERVIDOR: entrar em TARGET
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
 
+### TERMINAL 3 — Geração de tráfego
 
-### TERMINAL 3 — NO SERVIDOR: entrar em GENERATOR
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `generator`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=generator
 ```
 
+### TERMINAL 4 — Tráfego TCP simultâneo ao ataque
 
-### TERMINAL 4 — NO SERVIDOR: entrar em GENERATOR
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `generator`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=generator
 ```
 
-O shell já abre em `/workspace/testes/testes-chen/containers`.
-Confira o prompt: **`root@target` nos terminais 1 e 2** e
-**`root@generator` nos terminais de geração**.
-Se já estiver no container correto, basta entrar na pasta:
+O shell abre em `/workspace/testes/testes-chen/containers`. Confira o prompt:
+`root@target` nos terminais de serviço/observação/classificação e
+`root@generator` nos terminais de carga. Se já estiver no container correto:
 
 ```bash
 cd /workspace/testes/testes-chen/containers
 ```
 
-**Execute cada bloco somente no terminal indicado.** Os comandos de serviço,
-observação e tráfego ocupam o terminal até terminarem. Não cole todos os blocos
-em um único shell. Para sair de um container, use `exit 0`.
+Execute os comandos de cada teste somente no terminal indicado. Os serviços e
+as coletas ocupam seus terminais até terminar; não cole todos os blocos em um
+único shell. Para sair do container e voltar ao servidor, use `exit 0`.
+Os comandos abaixo usam `make -s` para ocultar a listagem interna do Makefile;
+as mensagens do teste e os erros continuam aparecendo.
 
 ## Experimento 1 — Replay e tempos por etapa (Tabela II)
 
@@ -81,7 +117,7 @@ tcprewrite --infile=/workspace/results/attack-only.pcap --outfile=/workspace/res
 ### TERMINAL 2 — TARGET: iniciar a observação
 
 ```bash
-make observe MODE=collection-current DURATION=140 RUN=table2-r1
+make -s observe MODE=collection-current DURATION=140 RUN=table2-r1
 ```
 
 **Aguarde `PRONTO` antes de iniciar o replay.**
@@ -89,7 +125,7 @@ make observe MODE=collection-current DURATION=140 RUN=table2-r1
 ### TERMINAL 3 — GENERATOR: executar o replay
 
 ```bash
-make traffic KIND=replay PCAP=results/lab.pcap PPS=180163 DURATION=120 RUN=table2-r1
+make -s traffic KIND=replay PCAP=results/lab.pcap PPS=180163 DURATION=120 RUN=table2-r1
 ```
 
 O executor valida os endereços antes de enviar; guarde estatísticas do tcpreplay
@@ -110,7 +146,7 @@ publicadas: 12,68 µs (eBPF), 11,96 µs (XGBoost), 5,72 µs (XDP).
 ### TERMINAL 1 — TARGET: iniciar o serviço
 
 ```bash
-make serve SERVICE=iperf DURATION=600 RUN=fig8-server
+make -s serve SERVICE=iperf DURATION=600 RUN=fig8-server
 ```
 
 Mantenha-o ativo. Se encerrar após 600 segundos, reinicie antes da próxima rodada.
@@ -118,7 +154,7 @@ Mantenha-o ativo. Se encerrar após 600 segundos, reinicie antes da próxima rod
 ### TERMINAL 2 — TARGET: observar com Snort
 
 ```bash
-make observe MODE=snort DURATION=150 RUN=fig8-snort-5000-r1
+make -s observe MODE=snort DURATION=150 RUN=fig8-snort-5000-r1
 ```
 
 **Aguarde `PRONTO`.** Em seguida, inicie a carga no terminal 3 e, logo depois,
@@ -127,13 +163,13 @@ o tráfego TCP no terminal 4, enquanto a carga ainda estiver rodando.
 ### TERMINAL 3 — GENERATOR: iniciar a carga UDP
 
 ```bash
-make traffic KIND=udp PPS=5000 DURATION=120 RUN=fig8-snort-5000-r1
+make -s traffic KIND=udp PPS=5000 DURATION=120 RUN=fig8-snort-5000-r1
 ```
 
 ### TERMINAL 4 — GENERATOR: iniciar o TCP simultâneo
 
 ```bash
-make traffic KIND=tcp DURATION=110 RUN=fig8-snort-5000-tcp-r1
+make -s traffic KIND=tcp DURATION=110 RUN=fig8-snort-5000-tcp-r1
 ```
 
 ### Próximas rodadas

@@ -9,32 +9,101 @@ Atualize o laboratório conforme [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md),
 incluindo reconstrução da imagem e `make clab-build`. Valide primeiro uma rodada
 curta. A integração ainda precisa ser executada no servidor.
 
-Abra três sessões SSH e entre em `testes/testes-chen` no servidor:
+## Antes de começar — acessar o servidor e abrir os terminais
 
-- Terminal 1: `make clab-shell NODE=target` (serviço).
-- Terminal 2: `make clab-shell NODE=target` (observação).
-- Terminal 3: `make clab-shell NODE=generator` (carga).
+Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo
+`make clab-check` e `make clab-build`. Se o código mudou, atualize o repositório
+e reconstrua o laboratório antes dos testes, conforme esse roteiro.
 
-Os shells abrem em `/workspace/testes/testes-chen/containers`.
+Abra um terminal no seu PC para cada função abaixo. Em cada um, execute primeiro
+o SSH; espere aparecer o prompt do servidor antes de executar o bloco seguinte.
+Se já estiver conectado ao servidor nesse terminal, pule somente o SSH.
+Os comandos usam o acesso de Elisa; outras pessoas devem ajustar usuário,
+endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
+
+| Terminal | Container | Função |
+| --- | --- | --- |
+| 1 | `target` | Serviço que recebe conexões |
+| 2 | `target` | Observação e coleta de métricas |
+| 3 | `generator` | Geração de tráfego |
+
+### TERMINAL 1 — Serviço que recebe conexões
+
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=target
+```
+
+### TERMINAL 2 — Observação e coleta de métricas
+
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `target`:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=target
+```
+
+### TERMINAL 3 — Geração de tráfego
+
+**No PC**, conecte ao servidor:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
+```
+
+**No servidor**, entre no repositório e abra o container `generator`:
+
+```bash
+cd ~/xdp-flow-monitor/testes/testes-chen
+make clab-shell NODE=generator
+```
+
+O shell abre em `/workspace/testes/testes-chen/containers`. Confira o prompt:
+`root@target` nos terminais de serviço/observação/classificação e
+`root@generator` nos terminais de carga. Se já estiver no container correto:
+
+```bash
+cd /workspace/testes/testes-chen/containers
+```
+
+Execute os comandos de cada teste somente no terminal indicado. Os serviços e
+as coletas ocupam seus terminais até terminar; não cole todos os blocos em um
+único shell. Para sair do container e voltar ao servidor, use `exit 0`.
+Os comandos abaixo usam `make -s` para ocultar a listagem interna do Makefile;
+as mensagens do teste e os erros continuam aparecendo.
 
 ## Throughput sem ataque
 
 Terminal 1:
 
 ```bash
-make serve SERVICE=iperf DURATION=1200 RUN=fig6-server
+make -s serve SERVICE=iperf DURATION=1200 RUN=fig6-server
 ```
 
 Terminal 2:
 
 ```bash
-make observe MODE=xdp-static RULES=16 DURATION=70 RUN=fig6-tcp-xdp-16-r1
+make -s observe MODE=xdp-static RULES=16 DURATION=70 RUN=fig6-tcp-xdp-16-r1
 ```
 
 Após `PRONTO`, imediatamente no terminal 3:
 
 ```bash
-make traffic KIND=tcp DURATION=50 RUN=fig6-tcp-xdp-16-r1
+make -s traffic KIND=tcp DURATION=50 RUN=fig6-tcp-xdp-16-r1
 ```
 
 Espere ambos terminarem. Repita com `MODE=iptables` e identificação
@@ -45,13 +114,13 @@ Espere ambos terminarem. Repita com `MODE=iptables` e identificação
 Terminal 2:
 
 ```bash
-make observe MODE=xdp-static RULES=16 DURATION=140 RUN=fig6-syn-xdp-16-r1
+make -s observe MODE=xdp-static RULES=16 DURATION=140 RUN=fig6-syn-xdp-16-r1
 ```
 
 Após `PRONTO`, imediatamente no terminal 3:
 
 ```bash
-make traffic KIND=syn PPS=5000 DURATION=120 RUN=fig6-syn-xdp-16-r1
+make -s traffic KIND=syn PPS=5000 DURATION=120 RUN=fig6-syn-xdp-16-r1
 ```
 
 Repita com `MODE=iptables`, alterando também o RUN nos dois terminais, e baseline.
