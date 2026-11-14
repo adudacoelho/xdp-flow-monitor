@@ -101,7 +101,7 @@ clab-build: server-check
 
 clab-shell: server-check
 	@case "$$NODE" in generator|target) ;; *) echo 'Use NODE=generator ou NODE=target.' >&2; exit 1;; esac
-	sudo docker exec -it -w /workspace/testes/testes-chen/containers "clab-chen-$$NODE" bash
+	sudo docker exec -it -e 'PROMPT_COMMAND=PS1="\[\e[1;32m\]\u@\h:\w# \[\e[0m\]"' -w /workspace/testes/testes-chen/containers "clab-chen-$$NODE" bash -i
 
 host-record: server-check
 	mkdir -p "$$CHEN_RESULTS"

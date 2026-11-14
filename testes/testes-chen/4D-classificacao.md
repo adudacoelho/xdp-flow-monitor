@@ -14,17 +14,14 @@ No servidor, coloque o CSV real em `dataset/Syn.csv` antes de criar o laboratór
 Essa pasta é montada somente para leitura nos containers. Escolha explicitamente
 os arquivos; apontar para uma pasta mistura todos os CSVs dela.
 
-## Antes de começar — acessar o servidor e abrir os terminais
+## Antes de começar — já dentro do servidor
 
 Conclua [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md), incluindo
 `make clab-check` e `make clab-build`. Se o código mudou, atualize o repositório
 e reconstrua o laboratório antes dos testes, conforme esse roteiro.
 
-Abra um terminal no seu PC para cada função abaixo. Em cada um, execute primeiro
-o SSH; espere aparecer o prompt do servidor antes de executar o bloco seguinte.
-Se já estiver conectado ao servidor nesse terminal, pule somente o SSH.
-Os comandos usam o acesso de Elisa; outras pessoas devem ajustar usuário,
-endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
+**Já dentro do servidor**, use um terminal separado para cada função abaixo.
+Ajuste `~/xdp-flow-monitor` se o projeto estiver em outro caminho.
 
 | Terminal | Container | Função |
 | --- | --- | --- |
@@ -32,20 +29,15 @@ endereço e chave. Ajuste também `~/xdp-flow-monitor` se necessário.
 
 ### TERMINAL 1 — Classificação e avaliação dos modelos
 
-**No PC**, conecte ao servidor:
-
-```bash
-ssh -i ~/.ssh/id_ed25519 elisa.jesus@10.50.1.91
-```
-
-**No servidor**, entre no repositório e abra o container `target`:
+**Já dentro do servidor**, entre no repositório e abra o container `target`:
 
 ```bash
 cd ~/xdp-flow-monitor/testes/testes-chen
 make clab-shell NODE=target
 ```
 
-O shell abre em `/workspace/testes/testes-chen/containers`. Confira o prompt:
+O shell abre em `/workspace/testes/testes-chen/containers` com o prompt em
+verde automaticamente pelo comando `make clab-shell`. Confira o prompt:
 `root@target` nos terminais de serviço/observação/classificação e
 `root@generator` nos terminais de carga. Se já estiver no container correto:
 
