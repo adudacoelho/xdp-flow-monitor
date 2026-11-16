@@ -227,3 +227,21 @@ inclui matplotlib; o build inclui o filtro estático da IV-C. Os novos alvos sã
 Os modelos e relatórios de ML agora ficam no volume persistente de resultados.
 A integração local não executou benchmarks no servidor. As pendências de
 validação do detector, dataset real e tempos por etapa continuam aplicáveis.
+
+## Datasets incluídos na imagem
+
+A construção inclui os datasets presentes no projeto, inclusive
+`xdp-flow-monitor-main/dataset/synthetic_ddos.csv`. O mesmo CSV fica disponível
+em `/workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv` em ambos os
+containers. Os comandos de ML usam esse CSV sintético por padrão.
+
+Após atualizar o código, com testes encerrados, execute a sequência da seção 10
+para reconstruir a imagem e recriar os containers. Confira no servidor:
+
+```bash
+sudo docker exec clab-chen-target ls -lh /workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv
+sudo docker exec clab-chen-generator ls -lh /workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv
+```
+
+A montagem `dataset/` da raiz em `/workspace/dataset` continua disponível para
+dados externos compartilhados. Ela não oculta a subpasta do CSV versionado.

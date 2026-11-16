@@ -16,7 +16,7 @@ RULES ?= 16
 RUN ?= preliminary
 PCAP ?=
 SERVICE ?= iperf
-DATA ?= /workspace/dataset/Syn.csv
+DATA ?= /workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv
 DURATION_UNIT ?= us
 MAX_ROWS ?= 20000
 CV ?= 0
@@ -29,8 +29,8 @@ help:
 	@echo 'DENTRO DO CONTAINER: check build serve traffic observe ml'
 	echo 'observe MODE=baseline|tshark|collection-current|detector-current|xdp-static|iptables|snort'
 	echo 'traffic KIND=tcp|latency|syn|udp|replay DURATION=120 PPS=5000'
-	echo 'ml-evaluate DATA=/workspace/dataset/Syn.csv MAX_ROWS=20000 CV=0 JOBS=2'
-	echo 'ml DATA=/workspace/dataset/Syn.csv; test-window'
+	echo 'ml-evaluate MAX_ROWS=20000 CV=0 JOBS=2 — usa o CSV sintético do repositório por padrão'
+	echo 'ml — treina com o CSV sintético por padrão; test-window'
 
 # DENTRO DO CONTAINER: valida o nó, o servidor de origem e o enlace isolado.
 # Abra o shell com clab-shell; ele já inicia na pasta containers.
@@ -270,7 +270,7 @@ ml ml-evaluate: check
 	cd "$$REPO_ROOT"
 	test "$$(cat /etc/xdp-chen-lab)" = target
 	$(parameters)
-	test -e "$$DATA"
+	test -e "$$DATA" || { echo "ERRO: dataset não encontrado: $$DATA. O CSV do repositório fica em /workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv." >&2; exit 1; }
 	sha256sum xdp-flow-monitor-main/features.py xdp-flow-monitor-main/train_model.py xdp-flow-monitor-main/evaluate_models.py > "$$out/code.sha256"
 	if [ -d "$$DATA" ]; then find "$$DATA" -maxdepth 1 -type f -name '*.csv' -exec sha256sum {} +; else sha256sum "$$DATA"; fi > "$$out/dataset.sha256"
 	printf 'DATA=%s\nDURATION_UNIT=%s\nMAX_ROWS=%s\nCV=%s\nJOBS=%s\n' "$$DATA" "$$DURATION_UNIT" "$$MAX_ROWS" "$$CV" "$$JOBS" > "$$out/ml-parameters.txt"

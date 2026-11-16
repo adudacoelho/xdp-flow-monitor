@@ -9,10 +9,15 @@ implementados precisam ser confrontados com o protocolo desejado.
 ## Preparação
 
 Atualize o laboratório por [PREPARANDOSERVIDOR.md](PREPARANDOSERVIDOR.md).
-Reconstrua a imagem: matplotlib foi acrescentado às dependências fixadas.
-No servidor, coloque o CSV real em `dataset/Syn.csv` antes de criar o laboratório.
-Essa pasta é montada somente para leitura nos containers. Escolha explicitamente
-os arquivos; apontar para uma pasta mistura todos os CSVs dela.
+Reconstrua a imagem para incluir os datasets. O CSV sintético versionado fica
+em `/workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv` nos dois
+containers e é o padrão dos comandos `ml-evaluate` e `ml`. Não é necessário
+copiar ou baixar esse CSV manualmente em cada container.
+
+Dados externos colocados em `dataset/` na raiz do servidor continuam disponíveis
+em `/workspace/dataset` por montagem somente para leitura. Esse volume não cobre
+a subpasta do CSV versionado. Escolha explicitamente os arquivos; apontar para
+uma pasta mistura todos os CSVs dela.
 
 ## Antes de começar — já dentro do servidor
 
@@ -61,11 +66,14 @@ make -s test-window
 
 Esse teste C não depende de tráfego ou carregamento BPF.
 
-## Avaliar modelos
+## Avaliar modelos — dataset sintético do repositório
 
 ```bash
-make -s ml-evaluate DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us MAX_ROWS=20000 CV=0 JOBS=2 RUN=fig7-real-r1
+make -s ml-evaluate DATA=/workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv DURATION_UNIT=us MAX_ROWS=20000 CV=0 JOBS=2 RUN=fig7-sintetico-repo-r1
 ```
+
+Esse conjunto é sintético e serve para validar o funcionamento; seus resultados
+não equivalem à avaliação com CIC-DDoS2019 real.
 
 Comece sem validação cruzada. SVM e KNN podem demorar; `MAX_ROWS` limita a amostra
 estratificada. Após conferir a execução, se necessário use `CV=5`. Não rode o
@@ -86,7 +94,7 @@ inferência em lote não equivale ao tempo por pacote da Tabela II.
 ## Treinar apenas XGBoost
 
 ```bash
-make -s ml DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us RUN=xgb-real-r1
+make -s ml DATA=/workspace/xdp-flow-monitor-main/dataset/synthetic_ddos.csv DURATION_UNIT=us RUN=xgb-sintetico-repo-r1
 ```
 
 O modelo é salvo no volume de resultados junto com o log e hashes. A duração
@@ -95,7 +103,18 @@ fontes, informe `DURATION_UNIT=ms` ou `s` conforme a unidade real.
 O modelo versionado e o daemon não são substituídos automaticamente. Um modelo
 antigo treinado na escala anterior precisa ser retreinado antes de uso ao vivo.
 
-## Ensaio sem dados reais
+## Avaliar com dados reais — somente quando o arquivo estiver disponível
+
+Coloque `Syn.csv` em `dataset/` na raiz do servidor. No target, confira e execute:
+
+```bash
+ls -lh /workspace/dataset/Syn.csv
+make -s ml-evaluate DATA=/workspace/dataset/Syn.csv DURATION_UNIT=us MAX_ROWS=20000 CV=0 JOBS=2 RUN=fig7-real-r1
+```
+
+O dataset real não é fornecido no repositório.
+
+## Gerar outro conjunto sintético (opcional)
 
 Em outro terminal conectado ao servidor, **fora dos containers**, gere um arquivo
 separado usando um ambiente Python com numpy e pandas. Entre primeiro na raiz
